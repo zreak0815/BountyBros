@@ -24,8 +24,17 @@ public class EnemySlime : EnemyBase {
     //ob sich das Objekt auf dem Boden befindet
     private bool grounded = false;
 
+    //Lebenspunkte
+    private int HP = 100;
+
     void Awake() {
         anim = GetComponent<Animator>();
+        this.tag = "Slime";
+    }
+
+    public int getHP()
+    {
+        return this.HP;
     }
 	
 	// Update is called once per frame
