@@ -25,16 +25,16 @@ public class EnemySlime : EnemyBase {
     private bool grounded = false;
 
     //Lebenspunkte
-    private int HP = 100;
+    private int fullHP = 40;
+    private int HP = 40;
+
+    private int basicAttackDamage = 5;
+    private int defence = 0;
+    private float evasion = 0.1f;
 
     void Awake() {
         anim = GetComponent<Animator>();
         this.tag = "Slime";
-    }
-
-    public int getHP()
-    {
-        return this.HP;
     }
 	
 	// Update is called once per frame
@@ -100,5 +100,35 @@ public class EnemySlime : EnemyBase {
         }
 
         collisionBox.movement();
+    }
+
+    public override int getHP()
+    {
+        return HP;
+    }
+
+    public override void changeHP(int amount)
+    {
+        HP += amount;
+    }
+
+    public override int getDefence()
+    {
+        return defence;
+    }
+
+    public override float getEvasion()
+    {
+        return evasion;
+    }
+
+    public override int getBasicAttackDamage()
+    {
+        return basicAttackDamage;
+    }
+
+    public override int getFullHP()
+    {
+        return fullHP;
     }
 }
