@@ -48,6 +48,14 @@ public class SimplePlatformController : MonoBehaviour
     //Combatmanager
     public CombatManager combatManager;
 
+    public GameObject playerHitbox;
+
+    private int invincibility = 0;
+
+    private void Start() {
+        collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
+    }
+
     /// <summary>
     /// Prüft of die Kollisionsbox einen Gegner berührt
     /// </summary>
@@ -72,6 +80,12 @@ public class SimplePlatformController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        invincibility = Mathf.Max(0, invincibility - 1);
+
+        if (Input.GetButtonDown("Attack")) {
+            Instantiate(playerHitbox, transform);
+        }
+
         if (!inCombat) {
             //Spieler wird bewegt
             collisionBox.movement();
@@ -81,6 +95,16 @@ public class SimplePlatformController : MonoBehaviour
 
             if (grounded)
             {
+                //Stacheln
+                if (invincibility == 0) {
+                    Spikes floorDamage = collisionBox.getGround().GetComponent<Spikes>();
+                    if (floorDamage != null) {
+                        //TODO damage
+                        print("Spike Damage");
+                        invincibility = 120;
+                    }
+                }
+
                 //Spieler ist auf dem boden
                 if (isStomping)
                 {
@@ -93,6 +117,16 @@ public class SimplePlatformController : MonoBehaviour
                         {
                             des.dealDamage(1);
                             collisionBox.setVSpeed(0.4f);
+                        }
+                    }
+                } else {
+                    if (collisionBox.velocity.x != 0) {
+                        GameObject wall = collisionBox.getWall(collisionBox.velocity.x > 0 ? Vector3.right : Vector3.left);
+                        if (wall != null) {
+                            Pushable push = wall.GetComponent<Pushable>();
+                            if (push != null) {
+                                wall.GetComponent<CollisionBox>().wallCollisionH(collisionBox.velocity.x > 0 ? push.pushSpeed : -push.pushSpeed);
+                            }
                         }
                     }
                 }

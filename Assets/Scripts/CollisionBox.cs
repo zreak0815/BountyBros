@@ -12,6 +12,24 @@ public class CollisionBox : MonoBehaviour {
     public Vector2 velocity;
     //Das Objekt zu dem die Kollisionsbox gehört
     public Transform mainTransform;
+    //Ob die Kollisionsbox von sich aus movement aufruft
+    public bool auto;
+    //Beschleunigung nach unten
+    public float gravity;
+    //Layer Mask für Kollision
+    public int layerMask = 4096;
+
+    private void Start() {
+        if (auto) {
+            layerMask = 1 << LayerMask.NameToLayer("Ground");
+        }
+    }
+
+    private void Update() {
+        if (auto) {
+            movement();
+        }
+    }
 
     /// <summary>
     /// Setzt die horizontale Geschwindigkeit
@@ -34,7 +52,7 @@ public class CollisionBox : MonoBehaviour {
     /// </summary>
     /// <returns>Ob die Kollisionsbox einen Boden hat</returns>
     public bool isGrounded() {
-        return velocity.y <= 0 && Physics2D.Raycast(transform.position + Vector3.down * transform.lossyScale.y * 0.5f, Vector3.down, 0.01f, 1 << LayerMask.NameToLayer("Ground")).collider != null;
+        return velocity.y <= 0 && Physics2D.Raycast(transform.position + Vector3.down * transform.lossyScale.y * 0.5f, Vector3.down, 0.01f, layerMask).collider != null;
     }
 
     /// <summary>
@@ -42,7 +60,19 @@ public class CollisionBox : MonoBehaviour {
     /// </summary>
     /// <returns>das Objekt unter der Kollisionsbox</returns>
     public GameObject getGround() {
-        return Physics2D.Raycast(transform.position + Vector3.down * transform.lossyScale.y * 0.5f, Vector3.down, 0.01f, 1 << LayerMask.NameToLayer("Ground")).collider.gameObject;
+        Collider2D coll = Physics2D.Raycast(transform.position + Vector3.down * transform.lossyScale.y * 0.5f, Vector3.down, 0.01f, layerMask).collider;
+        if (coll != null) {
+            return coll.gameObject;
+        }
+        return null;
+    }
+
+    public GameObject getWall(Vector3 direction) {
+        Collider2D coll = Physics2D.BoxCast(new Vector2(transform.position.x + Mathf.Abs(transform.lossyScale.x) * 0.25f * direction.x, transform.position.y), new Vector2(Mathf.Abs(transform.lossyScale.x) * 0.5f - 0.1f, transform.lossyScale.y - 0.1f), 0, direction, 0.01f, layerMask).collider;
+        if (coll != null) {
+            return coll.gameObject;
+        }
+        return null;
     }
 
     /// <summary>
@@ -55,7 +85,7 @@ public class CollisionBox : MonoBehaviour {
         if (hdistance < 0) {
             direction = Vector3.left;
         }
-        ray = Physics2D.BoxCast(new Vector2(transform.position.x + Mathf.Abs(transform.lossyScale.x) * 0.25f * direction.x, transform.position.y), new Vector2(Mathf.Abs(transform.lossyScale.x) * 0.5f - 0.1f, transform.lossyScale.y - 0.1f), 0, direction, Mathf.Abs(hdistance), 1 << LayerMask.NameToLayer("Ground"));
+        ray = Physics2D.BoxCast(new Vector2(transform.position.x + Mathf.Abs(transform.lossyScale.x) * 0.25f * direction.x, transform.position.y), new Vector2(Mathf.Abs(transform.lossyScale.x) * 0.5f - 0.1f, transform.lossyScale.y - 0.1f), 0, direction, Mathf.Abs(hdistance), layerMask);
         if (ray.collider != null) {
             mainTransform.Translate(direction * ray.distance);
         } else {
@@ -74,7 +104,7 @@ public class CollisionBox : MonoBehaviour {
         if (vdistance < 0) {
             direction = Vector3.down;
         }
-        ray = Physics2D.Raycast(transform.position + direction * transform.lossyScale.y * 0.5f, direction, Mathf.Abs(vdistance), 1 << LayerMask.NameToLayer("Ground"));
+        ray = Physics2D.Raycast(transform.position + direction * transform.lossyScale.y * 0.5f, direction, Mathf.Abs(vdistance), layerMask);
 
         if (ray.collider != null) {
             mainTransform.Translate(direction * ray.distance);
@@ -88,6 +118,14 @@ public class CollisionBox : MonoBehaviour {
     /// Bewegt das Objekt Horizontal und Vertikal
     /// </summary>
     public void movement() {
+        if (auto) {
+            if (isGrounded()) {
+                setVSpeed(0);
+            }
+            else {
+                setVSpeed(velocity.y - gravity);
+            }
+        }
         wallCollisionH(velocity.x);
         wallCollisionV(velocity.y);
     }
