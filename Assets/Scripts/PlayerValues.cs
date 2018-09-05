@@ -19,6 +19,16 @@ public class PlayerValues : MonoBehaviour {
     public int preciseShotDamage = 15;
     public int stompAttackDamage = 10;
 
+    private const int INITIAL_COOLDOWN_LIGHTATTACK = 0;
+    private const int INITIAL_COOLDOWN_HEAVYATTACK = 0;
+    private const int INITIAL_COOLDOWN_PRECISESHOT = 0;
+    private const int INITIAL_COOLDOWN_STOMPATTACK = 0;
+
+    public int cooldownLightAttack = 0;
+    public int cooldownHeavyAttack = 3;
+    public int cooldownPreciseShot = 3;
+    public int cooldownStompAttack = 5;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -28,6 +38,43 @@ public class PlayerValues : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public int getCooldownFromAttack(int attackSkillIndex)
+    {
+        switch(attackSkillIndex)
+        {
+            case 1:
+                return cooldownLightAttack;
+            case 2:
+                return cooldownHeavyAttack;
+            case 3:
+                return cooldownPreciseShot;
+            case 4:
+                return cooldownStompAttack;
+            default:
+                // wird nie eintreten
+                return -1;
+        }
+    }
+
+    public void setCooldownFromAttack(int attackSkillIndex, int value)
+    {
+        switch(attackSkillIndex)
+        {
+            case 1:
+                // lightAttack besitzt keinen cooldown
+                break;
+            case 2:
+                cooldownHeavyAttack = value;
+                break;
+            case 3:
+                cooldownPreciseShot = value;
+                break;
+            case 4:
+                cooldownStompAttack = value;
+                break;
+        }
+    }
 
     // Gibt den Schaden des übergebenen Angriffs zurück
     public int getDamageFromAttack(int attackSkillIndex)

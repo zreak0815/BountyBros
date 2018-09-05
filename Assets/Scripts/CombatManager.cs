@@ -22,6 +22,7 @@ public class CombatManager : MonoBehaviour {
     public int currentSelection;
 
     public bool isPlayersTurn;
+    public bool inCombat = false;
 
     public Text playerHPText;
     public Text enemyHPText;
@@ -97,7 +98,7 @@ public class CombatManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+
         // Wechselt die Auswahl im aktuellen Menü
         if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) {
             // Hier ist switch notwendig, weil BattleMenu.Selection nur 3 Auswahlmöglichkeiten hat       
@@ -198,6 +199,16 @@ public class CombatManager : MonoBehaviour {
         }
 
 
+    }
+
+    public void setInCombat()
+    {
+        inCombat = !inCombat;
+    }
+
+    public bool getInCombat()
+    {
+        return inCombat;
     }
 
     private  void switchSelection()
@@ -350,7 +361,7 @@ public class CombatManager : MonoBehaviour {
             enemyBase.changeHP(-attackDamage);
             if (enemyBase.getHP() <= 0)
             {
-                //TODO end fight - enemy lost
+                endCombat();
             }
             else
             {
@@ -361,6 +372,15 @@ public class CombatManager : MonoBehaviour {
         }
         isPlayersTurn = !isPlayersTurn;
         
+    }
+
+    private void endCombat()
+    {
+        Destroy(GameObject.FindGameObjectWithTag("Slime"));
+        playerCamera.SetActive(true);
+        battleCamera.SetActive(false);
+        setInCombat();
+        Debug.Log("Player won fight!");
     }
 
     // Versucht aus dem Kampf zu fliehen
@@ -374,6 +394,9 @@ public class CombatManager : MonoBehaviour {
         } else
         {
             Debug.Log("Escape successful!");
+            playerCamera.SetActive(true);
+            battleCamera.SetActive(false);
+            setInCombat();
         }
     }
 

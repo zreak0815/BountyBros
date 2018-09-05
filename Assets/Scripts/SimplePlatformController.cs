@@ -66,7 +66,7 @@ public class SimplePlatformController : MonoBehaviour
         {
             Debug.Log("enemy touched!");
             //Gegner wurde berührt
-            inCombat = true;
+            combatManager.setInCombat();
             //TODO disable movement while in combat
             collisionBox.setHSpeed(0f);
             collisionBox.setVSpeed(0f);
@@ -75,6 +75,11 @@ public class SimplePlatformController : MonoBehaviour
             combatManager.startCombat(enemyIndex);
             
         }
+    }
+
+    public void setInCombat()
+    {
+        inCombat = !inCombat;
     }
 
     // Update is called once per frame
@@ -86,7 +91,7 @@ public class SimplePlatformController : MonoBehaviour
             Instantiate(playerHitbox, transform);
         }
 
-        if (!inCombat) {
+        if (!combatManager.getInCombat()) {
             //Spieler wird bewegt
             collisionBox.movement();
 
