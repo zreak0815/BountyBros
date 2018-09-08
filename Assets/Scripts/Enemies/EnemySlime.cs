@@ -24,8 +24,17 @@ public class EnemySlime : EnemyBase {
     //ob sich das Objekt auf dem Boden befindet
     private bool grounded = false;
 
+    //Lebenspunkte
+    private int fullHP = 40;
+    private int HP = 40;
+
+    private int basicAttackDamage = 5;
+    private int defence = 0;
+    private float evasion = 0.1f;
+
     void Awake() {
         anim = GetComponent<Animator>();
+        this.tag = "Slime";
     }
 	
 	// Update is called once per frame
@@ -91,5 +100,35 @@ public class EnemySlime : EnemyBase {
         }
 
         collisionBox.movement();
+    }
+
+    public override int getHP()
+    {
+        return HP;
+    }
+
+    public override void changeHP(int amount)
+    {
+        HP += amount;
+    }
+
+    public override int getDefence()
+    {
+        return defence;
+    }
+
+    public override float getEvasion()
+    {
+        return evasion;
+    }
+
+    public override int getBasicAttackDamage()
+    {
+        return basicAttackDamage;
+    }
+
+    public override int getFullHP()
+    {
+        return fullHP;
     }
 }

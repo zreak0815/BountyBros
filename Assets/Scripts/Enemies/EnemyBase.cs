@@ -24,4 +24,16 @@ public abstract class EnemyBase : MonoBehaviour {
         this.home = home;
     }
 
+    abstract public int getHP();
+
+    abstract public void changeHP(int amount);
+
+    abstract public int getDefence();
+
+    abstract public float getEvasion();
+
+    abstract public int getBasicAttackDamage();
+
+    abstract public int getFullHP();
+
 }

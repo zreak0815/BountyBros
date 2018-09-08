@@ -5,5 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Level.unity
+    path: Assets/MainMenu.unity
+    guid: f50aeefd216093243b24fa6b99c7a043
+  - enabled: 1
+    path: Assets/Scenes/Controls.unity
+    guid: e31151469f9db41bb99384b804f43c3d
+  - enabled: 1
+    path: Assets/BountyBros.unity
+    guid: 26840513120557a42b52b3aa56e05900
+  m_configObjects: {}

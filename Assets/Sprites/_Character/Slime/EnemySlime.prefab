@@ -146,6 +146,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
   mainTransform: {fileID: 4865703853969328}
+  auto: 0
+  gravity: 0
+  layerMask: 4096
 --- !u!114 &114753211067720216
 MonoBehaviour:
   m_ObjectHideFlags: 1

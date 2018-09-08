@@ -39,89 +39,153 @@ public class SimplePlatformController : MonoBehaviour
     //Ob der Spieler sich auf dem Boden befindet
     public bool grounded = false;
 
+    // True, wenn der Spieler im Kampf ist, sonst false
+    public bool inCombat = false;
+
     //Animator
     public Animator anim;
+
+    //Combatmanager
+    public CombatManager combatManager;
+
+    public GameObject playerHitbox;
+
+    private int invincibility = 0;
+
+    private void Start() {
+        collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
+    }
 
     /// <summary>
     /// Prüft of die Kollisionsbox einen Gegner berührt
     /// </summary>
-    public void checkEnemies() {
+    public void checkEnemies()
+    {
         RaycastHit2D enemy = Physics2D.BoxCast(collisionBox.transform.position, collisionBox.transform.lossyScale, 0, Vector2.right, 0, 1 << LayerMask.NameToLayer("Enemies"));
-        if (enemy.collider != null) {
+        if (enemy.collider != null)
+        {
+            Debug.Log("enemy touched!");
             //Gegner wurde berührt
-            //TODO
+            combatManager.setInCombat();
+            //TODO disable movement while in combat
+            collisionBox.setHSpeed(0f);
+            collisionBox.setVSpeed(0f);
+            //TODO detect which enemy it is
+            int enemyIndex = 0; // 0 = Slime
+            combatManager.startCombat(enemyIndex);
+            
         }
+    }
+
+    public void setInCombat()
+    {
+        inCombat = !inCombat;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Spieler wird bewegt
-        collisionBox.movement();
+        invincibility = Mathf.Max(0, invincibility - 1);
 
-        //Prüft ob der Spieler auf dem Boden ist
-        grounded = collisionBox.isGrounded();
-
-        if (grounded) {
-            //Spieler ist auf dem boden
-            if (isStomping) {
-                //Spieler landet von einer Stampfattacke
-                GameObject ground = collisionBox.getGround();
-                if (ground != null) {
-                    Destructable des = ground.GetComponent<Destructable>();
-                    if (des != null && des.stomp) {
-                        des.dealDamage(1);
-                        collisionBox.setVSpeed(0.4f);
-                    }
-                }
-            }
-            canDoubleJump = true;
-            isStomping = false;
-
-            if (Input.GetAxis("Horizontal") != 0) {
-                anim.SetTrigger("Walking");
-            }
-            else {
-                anim.SetTrigger("Standing");
-            }
-
-        } else  {
-            anim.SetTrigger("Jumping");
+        if (Input.GetButtonDown("Attack")) {
+            Instantiate(playerHitbox, transform);
         }
 
-        if (Input.GetButtonDown("Jump"))
-        {
+        if (!combatManager.getInCombat()) {
+            //Spieler wird bewegt
+            collisionBox.movement();
+
+            //Prüft ob der Spieler auf dem Boden ist
+            grounded = collisionBox.isGrounded();
+
             if (grounded)
             {
-                //Sprung von dem Boden
-                anim.ResetTrigger("Standing");
-                anim.ResetTrigger("Walking");
-                anim.ResetTrigger("Stomp");
-                anim.SetTrigger("Jumping");
-                collisionBox.setVSpeed(jumpForce);
-                grounded = false;
-            }
-            else if (canDoubleJump && abilityDoubleJump)
-            {
-                //Doppensprung
-                canDoubleJump = false;
-                //Stampfattacke wird abgrbrochen
+                //Stacheln
+                if (invincibility == 0) {
+                    Spikes floorDamage = collisionBox.getGround().GetComponent<Spikes>();
+                    if (floorDamage != null) {
+                        //TODO damage
+                        print("Spike Damage");
+                        invincibility = 120;
+                    }
+                }
+
+                //Spieler ist auf dem boden
+                if (isStomping)
+                {
+                    //Spieler landet von einer Stampfattacke
+                    GameObject ground = collisionBox.getGround();
+                    if (ground != null)
+                    {
+                        Destructable des = ground.GetComponent<Destructable>();
+                        if (des != null && des.stomp)
+                        {
+                            des.dealDamage(1);
+                            collisionBox.setVSpeed(0.4f);
+                        }
+                    }
+                } else {
+                    if (collisionBox.velocity.x != 0) {
+                        GameObject wall = collisionBox.getWall(collisionBox.velocity.x > 0 ? Vector3.right : Vector3.left);
+                        if (wall != null) {
+                            Pushable push = wall.GetComponent<Pushable>();
+                            if (push != null) {
+                                wall.GetComponent<CollisionBox>().wallCollisionH(collisionBox.velocity.x > 0 ? push.pushSpeed : -push.pushSpeed);
+                            }
+                        }
+                    }
+                }
+                canDoubleJump = true;
                 isStomping = false;
-                anim.SetTrigger("DoubleJump");
-                collisionBox.setVSpeed(doubleJumpForce);
+
+                if (Input.GetAxis("Horizontal") != 0)
+                {
+                    anim.SetTrigger("Walking");
+                }
+                else
+                {
+                    anim.SetTrigger("Standing");
+                }
+
             }
-        }
-        if (abilityStomp && Input.GetButtonDown("Stomp") && !grounded)
-        {
-            //Stampfattacke
-            anim.ResetTrigger("Jumping");
-            anim.SetTrigger("Stomp");
-            isStomping = true;
-        }
+            else
+            {
+                anim.SetTrigger("Jumping");
+            }
 
-        //Prüft auf Gegnerberührung
-        checkEnemies();
+            if (Input.GetButtonDown("Jump"))
+            {
+                if (grounded)
+                {
+                    //Sprung von dem Boden
+                    anim.ResetTrigger("Standing");
+                    anim.ResetTrigger("Walking");
+                    anim.ResetTrigger("Stomp");
+                    anim.SetTrigger("Jumping");
+                    collisionBox.setVSpeed(jumpForce);
+                    grounded = false;
+                }
+                else if (canDoubleJump && abilityDoubleJump)
+                {
+                    //Doppelsprung
+                    canDoubleJump = false;
+                    //Stampfattacke wird abgrbrochen
+                    isStomping = false;
+                    anim.SetTrigger("DoubleJump");
+                    collisionBox.setVSpeed(doubleJumpForce);
+                }
+            }
+            if (abilityStomp && Input.GetButtonDown("Stomp") && !grounded)
+            {
+                //Stampfattacke
+                anim.ResetTrigger("Jumping");
+                anim.SetTrigger("Stomp");
+                isStomping = true;
+            }
 
+            //Prüft auf Gegnerberührung
+            checkEnemies();
+        }        
     }
 
     void FixedUpdate()
@@ -130,50 +194,66 @@ public class SimplePlatformController : MonoBehaviour
 
         bool fixedGrounded = collisionBox.isGrounded();
 
-        if (fixedGrounded) {
-            //Bewegung auf dem Boden
-            collisionBox.setHSpeed(Mathf.Clamp(collisionBox.velocity.x + h * groundAcceleration, -groundSpeed, groundSpeed));
+        if (!inCombat) {
+            if (fixedGrounded)
+            {
+                //Bewegung auf dem Boden
+                collisionBox.setHSpeed(Mathf.Clamp(collisionBox.velocity.x + h * groundAcceleration, -groundSpeed, groundSpeed));
 
-            if (h == 0) {
-                if (collisionBox.velocity.x > 0) {
-                    collisionBox.setHSpeed(Mathf.Max(collisionBox.velocity.x - groundDeceleration, 0));
+                if (h == 0)
+                {
+                    if (collisionBox.velocity.x > 0)
+                    {
+                        collisionBox.setHSpeed(Mathf.Max(collisionBox.velocity.x - groundDeceleration, 0));
+                    }
+
+                    if (collisionBox.velocity.x < 0)
+                    {
+                        collisionBox.setHSpeed(Mathf.Min(collisionBox.velocity.x + groundDeceleration, 0));
+                    }
+                }
+                else
+                {
                 }
 
-                if (collisionBox.velocity.x < 0) {
-                    collisionBox.setHSpeed(Mathf.Min(collisionBox.velocity.x + groundDeceleration, 0));
+                collisionBox.setVSpeed(0);
+            }
+            else
+            {
+                //Bewegung in der Luft
+                collisionBox.setHSpeed(Mathf.Clamp(collisionBox.velocity.x + h * airAcceleration, -airSpeed, airSpeed));
+
+                if (h == 0)
+                {
+                    if (collisionBox.velocity.x > 0)
+                    {
+                        collisionBox.setHSpeed(Mathf.Max(collisionBox.velocity.x - airDeceleration, 0));
+                    }
+
+                    if (collisionBox.velocity.x < 0)
+                    {
+                        collisionBox.setHSpeed(Mathf.Min(collisionBox.velocity.x + airDeceleration, 0));
+                    }
                 }
-            } else {
+
+                collisionBox.setVSpeed(Mathf.Max(collisionBox.velocity.y - gravity, -fallSpeed));
             }
 
-            collisionBox.setVSpeed(0);
-        } else {
-            //Bewegung in der Luft
-            collisionBox.setHSpeed(Mathf.Clamp(collisionBox.velocity.x + h * airAcceleration, -airSpeed, airSpeed));
-
-            if (h == 0) {
-                if (collisionBox.velocity.x > 0) {
-                    collisionBox.setHSpeed(Mathf.Max(collisionBox.velocity.x - airDeceleration, 0));
+            if (fixedGrounded)
+            {
+                if (h > 0 && !facingRight)
+                {
+                    Flip();
                 }
-
-                if (collisionBox.velocity.x < 0) {
-                    collisionBox.setHSpeed(Mathf.Min(collisionBox.velocity.x + airDeceleration, 0));
+                else if (h < 0 && facingRight)
+                {
+                    Flip();
                 }
             }
-
-            collisionBox.setVSpeed(Mathf.Max(collisionBox.velocity.y - gravity, -fallSpeed));
-        }
-
-        if (fixedGrounded) {
-            if (h > 0 && !facingRight) {
-                Flip();
+            if (isStomping)
+            {
+                collisionBox.setVSpeed(-stompForce);
             }
-            else if (h < 0 && facingRight) {
-                Flip();
-            }
-        }
-        if (isStomping)
-        {
-            collisionBox.setVSpeed(-stompForce);
         }
     }
 
