@@ -27,6 +27,8 @@ public class CombatManager : MonoBehaviour {
     public Text playerHPText;
     public Text enemyHPText;
 
+    private GameObject touchedEnemy;
+
     [Header("Selection")]
     public GameObject selectionMenu;
     public Text attack;
@@ -61,8 +63,6 @@ public class CombatManager : MonoBehaviour {
     private string copyItemTwo;
     private string copyItemThree;
     private string copyItemFour;
-
-
 
 
     public enum BattleMenu
@@ -383,7 +383,7 @@ public class CombatManager : MonoBehaviour {
 
     private void endCombat()
     {
-        Destroy(GameObject.FindGameObjectWithTag("Slime"));
+        Destroy(touchedEnemy);
         playerCamera.SetActive(true);
         battleCamera.SetActive(false);
         setInCombat();
@@ -407,18 +407,15 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
-    public void startCombat(int enemyIndex)
+    public void startCombat(EnemyBase enemyType, GameObject enemyObject, int priority)
     {
+        touchedEnemy = enemyObject;
         playerCamera.SetActive(false);
         battleCamera.SetActive(true);
         changeMenu(BattleMenu.Selection);
         switchSelection();
-        
 
-        //TODO only finds the first enemy called Slime & place correct enemy image at monsterPodium
-        EnemySlime enemy = GameObject.FindGameObjectWithTag("Slime").GetComponent<EnemySlime>();
-        enemyBase = GameObject.FindGameObjectWithTag("Slime").GetComponent<EnemySlime>();
-
+        enemyBase = enemyType;
 
     }
 }

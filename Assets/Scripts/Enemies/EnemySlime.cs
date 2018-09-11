@@ -131,4 +131,8 @@ public class EnemySlime : EnemyBase {
     {
         return fullHP;
     }
+
+    public override enemyType GetEnemyType() {
+        return enemyType.SLIME;
+    }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum enemyType { SLIME };
+
 /**
  * Eine abstrakte Klasse für einen Gegner
  */
@@ -35,5 +37,7 @@ public abstract class EnemyBase : MonoBehaviour {
     abstract public int getBasicAttackDamage();
 
     abstract public int getFullHP();
+
+    abstract public enemyType GetEnemyType();
 
 }

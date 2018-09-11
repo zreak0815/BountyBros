@@ -70,15 +70,25 @@ public class SimplePlatformController : MonoBehaviour
         if (enemy.collider != null)
         {
             Debug.Log("enemy touched!");
-            //Gegner wurde berührt
-            combatManager.setInCombat();
-            collisionBox.setHSpeed(0f);
-            collisionBox.setVSpeed(0f);
-            //TODO detect which enemy it is
-            int enemyIndex = 0; // 0 = Slime
-            combatManager.startCombat(enemyIndex);
             
+            metEnemy(enemy.collider.GetComponent<EnemyOverworldHitbox>().owner, 0);
         }
+    }
+
+    public void metEnemy(EnemyBase enemy, int priority) {
+
+        //TODO Erstschlag einbauen
+        if (priority == 1) {
+            print("Spieler hat Erstschlag!");
+        }
+
+        //Gegner wurde berührt
+        combatManager.setInCombat();
+
+        collisionBox.setHSpeed(0f);
+        collisionBox.setVSpeed(0f);
+
+        combatManager.startCombat(enemy, enemy.gameObject, priority);
     }
 
     public void setInCombat()
