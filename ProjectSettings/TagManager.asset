@@ -15,6 +15,7 @@ TagManager:
   - HealthBar
   - Slime
   - Battle Camera
+  - PlayerSpawnPoint
   layers:
   - Default
   - TransparentFX

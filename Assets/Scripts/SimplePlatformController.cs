@@ -50,10 +50,15 @@ public class SimplePlatformController : MonoBehaviour
 
     public GameObject playerHitbox;
 
+    //Spieler
+    public PlayerValues player;
+
     private int invincibility = 0;
 
     private void Start() {
         collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerValues>();
     }
 
     /// <summary>
@@ -67,7 +72,6 @@ public class SimplePlatformController : MonoBehaviour
             Debug.Log("enemy touched!");
             //Gegner wurde berührt
             combatManager.setInCombat();
-            //TODO disable movement while in combat
             collisionBox.setHSpeed(0f);
             collisionBox.setVSpeed(0f);
             //TODO detect which enemy it is
@@ -82,9 +86,24 @@ public class SimplePlatformController : MonoBehaviour
         inCombat = !inCombat;
     }
 
+
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(player.getHP());
+        if (player.getHP() <= 0)
+        {
+            Vector3 playerSpawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+            GameObject.FindGameObjectWithTag("Player").transform.position = playerSpawnPosition;
+            player.changeHP(player.getFullHP());
+            //TODO play death animation & after respawn: platforms etc are not shown, but player is in correct position
+            if (inCombat)
+            {
+                inCombat = !inCombat;
+                combatManager.playerLost();
+            }
+        }
+
         invincibility = Mathf.Max(0, invincibility - 1);
 
         if (Input.GetButtonDown("Attack")) {
@@ -105,6 +124,9 @@ public class SimplePlatformController : MonoBehaviour
                     Spikes floorDamage = collisionBox.getGround().GetComponent<Spikes>();
                     if (floorDamage != null) {
                         //TODO damage
+                        const int SPIKE_DAMAGE = 10;
+                        player.changeHP(-SPIKE_DAMAGE);
+                        Debug.Log(player.getHP());
                         print("Spike Damage");
                         invincibility = 120;
                     }

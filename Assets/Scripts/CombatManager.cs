@@ -338,7 +338,7 @@ public class CombatManager : MonoBehaviour {
             player.changeHP(-attackDamage);
             if (player.getHP() <= 0)
             {
-                //TODO end fight - player lost
+                playerLost();
             } else
             {
                 playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
@@ -372,6 +372,13 @@ public class CombatManager : MonoBehaviour {
         }
         isPlayersTurn = !isPlayersTurn;
         
+    }
+
+    public void playerLost()
+    {
+        playerCamera.SetActive(true);
+        battleCamera.SetActive(false);
+        setInCombat();
     }
 
     private void endCombat()
