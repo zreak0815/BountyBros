@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum enemyType { SLIME };
+public enum enemyType { SLIME, BAT };
 
 /**
  * Eine abstrakte Klasse für einen Gegner
@@ -18,6 +18,14 @@ public abstract class EnemyBase : MonoBehaviour {
     //Wie viel der Gegner pro Schritt nach unten beschleunigt
     public float gravity = 0.05f;
 
+    //Lebenspunkte
+    protected int fullHP = 40;
+    protected int HP = 40;
+
+    protected int basicAttackDamage = 5;
+    protected int defence = 0;
+    protected float evasion = 0.1f;
+
     /// <summary>
     /// Setzt die Referenz für den Spawnpunkt
     /// </summary>
@@ -26,17 +34,29 @@ public abstract class EnemyBase : MonoBehaviour {
         this.home = home;
     }
 
-    abstract public int getHP();
+    public int getHP() {
+        return HP;
+    }
 
-    abstract public void changeHP(int amount);
+    public void changeHP(int amount) {
+        HP += amount;
+    }
 
-    abstract public int getDefence();
+    public int getDefence() {
+        return defence;
+    }
 
-    abstract public float getEvasion();
+    public float getEvasion() {
+        return evasion;
+    }
 
-    abstract public int getBasicAttackDamage();
+    public int getBasicAttackDamage() {
+        return basicAttackDamage;
+    }
 
-    abstract public int getFullHP();
+    public int getFullHP() {
+        return fullHP;
+    }
 
     abstract public enemyType GetEnemyType();
 
