@@ -61,6 +61,19 @@ public class SimplePlatformController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerValues>();
     }
 
+    public void getSkill(int skillId) {
+        switch(skillId) {
+            case 0:
+                abilityDoubleJump = true;
+                print("Skill Obtained: Double Jump!");
+                break;
+            case 1:
+                abilityStomp = true;
+                print("Skill Obtained: Stomp!");
+                break;
+        }
+    }
+
     /// <summary>
     /// Prüft of die Kollisionsbox einen Gegner berührt
     /// </summary>

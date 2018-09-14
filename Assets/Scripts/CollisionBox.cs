@@ -47,6 +47,10 @@ public class CollisionBox : MonoBehaviour {
         velocity = new Vector2(velocity.x, vSpeed);
     }
 
+    public void setSpeed(Vector2 speed) {
+        velocity = speed;
+    }
+
     /// <summary>
     /// Prüft auf Kollision unter der Kollisionsbox
     /// </summary>
