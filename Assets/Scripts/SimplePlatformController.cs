@@ -113,7 +113,7 @@ public class SimplePlatformController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(player.getHP());
+       // Debug.Log(player.getHP());
         if (player.getHP() <= 0)
         {
             Vector3 playerSpawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
