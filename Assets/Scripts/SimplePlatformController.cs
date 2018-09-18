@@ -55,6 +55,8 @@ public class SimplePlatformController : MonoBehaviour
 
     private int invincibility = 0;
 
+    private int attackTime = 0;
+
     private void Start() {
         collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
 
@@ -113,7 +115,7 @@ public class SimplePlatformController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(player.getHP());
+        //Debug.Log(player.getHP());
         if (player.getHP() <= 0)
         {
             Vector3 playerSpawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
@@ -129,8 +131,18 @@ public class SimplePlatformController : MonoBehaviour
 
         invincibility = Mathf.Max(0, invincibility - 1);
 
-        if (Input.GetButtonDown("Attack")) {
+        attackTime = Mathf.Max(0, attackTime - 1);
+
+        if (attackTime == 15) {
             Instantiate(playerHitbox, transform);
+        }
+
+        if (Input.GetButtonDown("Attack")) {
+            anim.SetTrigger("Attack");
+            attackTime = 20;
+            if (!grounded) {
+                checkFlip(Input.GetAxis("Horizontal"));
+            }
         }
 
         if (!combatManager.getInCombat()) {
@@ -233,6 +245,15 @@ public class SimplePlatformController : MonoBehaviour
         }        
     }
 
+    private void checkFlip(float direction) {
+        if (direction > 0 && !facingRight) {
+            Flip();
+        }
+        else if (direction < 0 && facingRight) {
+            Flip();
+        }
+    }
+
     void FixedUpdate()
     {
         float h = Input.GetAxis("Horizontal");
@@ -242,6 +263,10 @@ public class SimplePlatformController : MonoBehaviour
         if (!inCombat) {
             if (fixedGrounded)
             {
+                if (attackTime > 0) {
+                    h = 0;
+                }
+
                 //Bewegung auf dem Boden
                 collisionBox.setHSpeed(Mathf.Clamp(collisionBox.velocity.x + h * groundAcceleration, -groundSpeed, groundSpeed));
 
@@ -286,14 +311,7 @@ public class SimplePlatformController : MonoBehaviour
 
             if (fixedGrounded)
             {
-                if (h > 0 && !facingRight)
-                {
-                    Flip();
-                }
-                else if (h < 0 && facingRight)
-                {
-                    Flip();
-                }
+                checkFlip(h);
             }
             if (isStomping)
             {
