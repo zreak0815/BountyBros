@@ -27,6 +27,9 @@ public class CombatManager : MonoBehaviour {
     public Text playerHPText;
     public Text enemyHPText;
 
+    public GameObject HPPanel;
+    public Text jumpAndRunUIText;
+
     private GameObject touchedEnemy;
 
     [Header("Selection")]
@@ -204,6 +207,13 @@ public class CombatManager : MonoBehaviour {
     public void setInCombat()
     {
         inCombat = !inCombat;
+        if (inCombat)
+        {
+            HPPanel.SetActive(false);
+        } else
+        {
+            HPPanel.SetActive(true);
+        }
     }
 
     public bool getInCombat()
@@ -383,6 +393,8 @@ public class CombatManager : MonoBehaviour {
 
     private void endCombat()
     {
+        jumpAndRunUIText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+        HPPanel.SetActive(true);
         Destroy(touchedEnemy);
         playerCamera.SetActive(true);
         battleCamera.SetActive(false);
@@ -400,6 +412,7 @@ public class CombatManager : MonoBehaviour {
             Debug.Log("Failed to escape!");
         } else
         {
+            HPPanel.SetActive(true);
             Debug.Log("Escape successful!");
             playerCamera.SetActive(true);
             battleCamera.SetActive(false);
@@ -409,6 +422,9 @@ public class CombatManager : MonoBehaviour {
 
     public void startCombat(EnemyBase enemyType, GameObject enemyObject, int priority)
     {
+        HPPanel.SetActive(false);
+        playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+
         touchedEnemy = enemyObject;
         playerCamera.SetActive(false);
         battleCamera.SetActive(true);

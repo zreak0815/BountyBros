@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SimplePlatformController : MonoBehaviour
 {
@@ -53,12 +54,16 @@ public class SimplePlatformController : MonoBehaviour
     //Spieler
     public PlayerValues player;
 
+    public Text hpText;
+
     private int invincibility = 0;
 
     private void Start() {
         collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerValues>();
+
+        hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
     }
 
     public void getSkill(int skillId) {
@@ -100,6 +105,7 @@ public class SimplePlatformController : MonoBehaviour
 
         collisionBox.setHSpeed(0f);
         collisionBox.setVSpeed(0f);
+
 
         combatManager.startCombat(enemy, enemy.gameObject, priority);
     }
@@ -149,7 +155,8 @@ public class SimplePlatformController : MonoBehaviour
                         //TODO damage
                         const int SPIKE_DAMAGE = 10;
                         player.changeHP(-SPIKE_DAMAGE);
-                        Debug.Log(player.getHP());
+                        hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
+                        //Debug.Log(player.getHP());
                         print("Spike Damage");
                         invincibility = 120;
                     }
