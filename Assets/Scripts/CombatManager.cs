@@ -32,6 +32,9 @@ public class CombatManager : MonoBehaviour {
 
     private GameObject touchedEnemy;
 
+    public CombatBase playerCombat;
+    public CombatBase enemyCombat;
+
     [Header("Selection")]
     public GameObject selectionMenu;
     public Text attack;
@@ -67,6 +70,9 @@ public class CombatManager : MonoBehaviour {
     private string copyItemThree;
     private string copyItemFour;
 
+    private int savedDamage = 0;
+    private bool savedEvade = false;
+    private bool canAttack = true;
 
     public enum BattleMenu
     {
@@ -97,6 +103,10 @@ public class CombatManager : MonoBehaviour {
         copyItemTwo = itemTwo.text;
         copyItemThree = itemThree.text;
         copyItemFour = itemFour.text;
+    }
+
+    public void completeAction() {
+
     }
 	
 	// Update is called once per frame
@@ -139,7 +149,7 @@ public class CombatManager : MonoBehaviour {
         }
 
         // reagiert auf Enter Eingabe
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (isPlayersTurn && Input.GetKeyDown(KeyCode.Return))
         {
             //prüft das aktuelle Menü
             switch(currentMenu)
@@ -355,33 +365,54 @@ public class CombatManager : MonoBehaviour {
             }
             Debug.Log("Player hit with " + attackDamage + " damage!");
         }
+
+        endTurn();
     }
 
     private void performPlayerAttack (int attackSkillIndex)
     {
-        int attackDamage = 0;
-        float evaded = Random.Range(0.0f, 1.0f);
-        if (enemyBase.getEvasion() > evaded)
-        {
-            Debug.Log("Enemy evaded!");
-            performEnemyAttack();
-        } else
-        {
-            attackDamage = player.getDamageFromAttack(attackSkillIndex) - enemyBase.getDefence();
-            enemyBase.changeHP(-attackDamage);
-            if (enemyBase.getHP() <= 0)
-            {
-                endCombat();
-            }
-            else
-            {
-                enemyHPText.text = "HP " + enemyBase.getHP() + "/" + enemyBase.getFullHP();
-                performEnemyAttack();
-            }
-            Debug.Log("Enemy hit with " + attackDamage + " damage!");
+        if (canAttack) {
+            float evaded = Random.Range(0.0f, 1.0f);
+            savedEvade = enemyBase.getEvasion() > evaded;
+
+            savedDamage = player.getDamageFromAttack(attackSkillIndex) - enemyBase.getDefence();
+
+            //isPlayersTurn = !isPlayersTurn;
+            playerCombat.performAttackAnimation(attackSkillIndex);
+            canAttack = false;
         }
-        isPlayersTurn = !isPlayersTurn;
         
+    }
+
+    public void endTurn() {
+        isPlayersTurn = !isPlayersTurn;
+        if (isPlayersTurn) {
+            canAttack = true;
+        } else {
+            performEnemyAttack();
+        }
+    }
+
+    public void dealDamage() {
+        if (savedEvade) {
+            Debug.Log((isPlayersTurn ? "Enemy" : "Player") + " evaded!");
+        }
+        else {
+            if (isPlayersTurn) {
+                enemyBase.changeHP(-savedDamage);
+                enemyHPText.text = "HP " + enemyBase.getHP() + "/" + enemyBase.getFullHP();
+
+                if (enemyBase.getHP() <= 0) {
+                    endCombat();
+                }
+
+                //performEnemyAttack();
+            }
+            else {
+                player.changeHP(-savedDamage);
+            }
+            Debug.Log((isPlayersTurn ? "Enemy" : "Player") + " hit with " + savedDamage + " damage!");
+        }
     }
 
     public void playerLost()
@@ -431,7 +462,10 @@ public class CombatManager : MonoBehaviour {
         changeMenu(BattleMenu.Selection);
         switchSelection();
 
-        enemyBase = enemyType;
+        playerCombat.setTarget(true);
+        enemyCombat.setTarget(false);
 
+        enemyBase = enemyType;
+        canAttack = true;
     }
 }

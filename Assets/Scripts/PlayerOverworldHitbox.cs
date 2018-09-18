@@ -9,7 +9,7 @@ public class PlayerOverworldHitbox : MonoBehaviour {
 
     private void Update() {
 
-        RaycastHit2D enemy = Physics2D.CircleCast(transform.position, transform.lossyScale.x, Vector2.right, 0, 1 << LayerMask.NameToLayer("Enemies"));
+        RaycastHit2D enemy = Physics2D.CircleCast(transform.position, transform.localScale.x, Vector2.right, 0, 1 << LayerMask.NameToLayer("Enemies"));
         if (enemy.collider != null) {
             Debug.Log("enemy attacked!");
 

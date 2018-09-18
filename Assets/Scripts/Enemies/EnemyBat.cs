@@ -29,7 +29,6 @@ public class EnemyBat : EnemyBase {
         evasion = 0.2f;
 
         anim = GetComponent<Animator>();
-        tag = "Bat";
     }
 
     // Update is called once per frame
@@ -49,7 +48,6 @@ public class EnemyBat : EnemyBase {
             }
         } else {
 
-           // print(Vector3.Distance(moveTarget, transform.position));
             if (Vector3.Distance(moveTarget, transform.position) <= 0.1f || moveTimer <= 0) {
                 movement = MoveState.stationary;
                 moveTimer = Random.Range(0.5f, 2.0f);
