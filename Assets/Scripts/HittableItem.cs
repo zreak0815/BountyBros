@@ -11,6 +11,12 @@ public class HittableItem : MonoBehaviour {
     private bool collected = false;
 
     public Collider2D hurtbox;
+    private PlayerValues playerValues;
+
+    void Start()
+    {
+        playerValues = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerValues>();
+    }
 
     // Update is called once per frame
     void Update () {
@@ -21,7 +27,7 @@ public class HittableItem : MonoBehaviour {
             hurtbox.OverlapCollider(filter, results);
             if (results[0] != null) {
                 int amount = Random.Range(minAmount, maxAmount + 1);
-                //TODO Items einsammeln
+                playerValues.changeHPFlaskAmount(amount);
                 print(amount.ToString() + " Items collected!");
                 collected = true;
             }

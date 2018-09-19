@@ -24,6 +24,8 @@ public class EnemyBat : EnemyBase {
         fullHP = 25;
         HP = fullHP;
 
+        xpReward = 50;
+
         basicAttackDamage = 6;
         defence = 0;
         evasion = 0.2f;

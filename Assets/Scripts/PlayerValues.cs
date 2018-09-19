@@ -2,16 +2,24 @@
 
 public class PlayerValues : MonoBehaviour {
 
-   // Lebenspunkte
-   public int HP = 100;
-   public int fullHP = 100;
-   public int level = 1;
+    // Lebenspunkte
+    public int HP = 100;
+    public int fullHP = 100;
+    public int playerLevel = 1;
+    public int currentXP = 0;
+
+    public int[] XP_PER_LEVEL = {100, 110, 120, 130 };
+
+    public const int HP_POTION_REGEN = 15;
 
    // Prozentwerte für Ausweichen und zusätzliche Verteidigung
    public int defense = 2;
    public float evasion = 0.1f;
    public float escapeChance = 0.3f;
 
+    public int hpFlaskAmount = 0;
+
+    // Schadenswerte für Angriffe
    public int lightAttackDamage = 10;
    public int heavyAttackDamage = 20;
    public int preciseShotDamage = 15;
@@ -36,6 +44,26 @@ public class PlayerValues : MonoBehaviour {
    void Update() {
 
    }
+
+    public void useHPPotion()
+    {
+        HP += HP_POTION_REGEN;
+        if (HP > fullHP)
+        {
+            HP = fullHP;
+        }
+        hpFlaskAmount--;
+    }
+
+    public void changeHPFlaskAmount(int amount)
+    {
+        hpFlaskAmount += amount;
+    }
+
+    public int getHPFlaskAmount()
+    {
+        return hpFlaskAmount;
+    }
 
    public int getCooldownFromAttack(int attackSkillIndex) {
       switch (attackSkillIndex) {
@@ -103,12 +131,33 @@ public class PlayerValues : MonoBehaviour {
 
    // Erhöht das Level um 1
    public void incLevel() {
-      level++;
+      playerLevel++;
    }
+
+    public void changeXP(int amount)
+    {
+        currentXP += amount;
+        if (currentXP >= XP_PER_LEVEL[playerLevel - 1])
+        {
+            currentXP -= XP_PER_LEVEL[playerLevel - 1];
+            playerLevel++;
+            //TODO statuspunkte verteilen im character sheet und werte dementsprechend veränderns
+        }
+    }
+
+    public int getXP()
+    {
+        return currentXP;
+    }
+
+    public int getXPForLevel(int level)
+    {
+        return XP_PER_LEVEL[level - 1];
+    }
 
    // Gbt das Spielerlevel zurück
    public int getLevel() {
-      return level;
+      return playerLevel;
    }
 
    // Verändert Verteidigung um den übergebenen Wert

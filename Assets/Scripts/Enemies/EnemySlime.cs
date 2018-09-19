@@ -28,6 +28,8 @@ public class EnemySlime : EnemyBase {
         fullHP = 40;
         HP = fullHP;
 
+        xpReward = 50;
+
         basicAttackDamage = 5;
         defence = 0;
         evasion = 0.1f;

@@ -164,12 +164,9 @@ public class SimplePlatformController : MonoBehaviour
                 if (invincibility == 0) {
                     Spikes floorDamage = collisionBox.getGround().GetComponent<Spikes>();
                     if (floorDamage != null) {
-                        //TODO damage
                         const int SPIKE_DAMAGE = 10;
                         player.changeHP(-SPIKE_DAMAGE);
                         hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
-                        //Debug.Log(player.getHP());
-                        print("Spike Damage");
                         invincibility = 120;
                     }
                 }

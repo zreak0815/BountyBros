@@ -30,6 +30,9 @@ public class CombatManager : MonoBehaviour {
     public GameObject HPPanel;
     public Text jumpAndRunUIText;
 
+    public GameObject XPPanel;
+    public Text xpText;
+
     private GameObject touchedEnemy;
 
     public CombatBase playerCombat;
@@ -57,18 +60,11 @@ public class CombatManager : MonoBehaviour {
     private string copyPreciseShot;
     private string copyStompAttack;
 
-    //TODO add real items
     [Header("Items")]
     public GameObject itemsMenu;
-    public Text itemOne;
-    public Text itemTwo;
-    public Text itemThree;
-    public Text itemFour;
-    private const int ITEM_AMOUNT = 4;
-    private string copyItemOne;
-    private string copyItemTwo;
-    private string copyItemThree;
-    private string copyItemFour;
+    public Text hpPotion;
+    private const int ITEM_AMOUNT = 1;
+    private string copyHpPotion;
 
     private int savedDamage = 0;
     private bool savedEvade = false;
@@ -99,10 +95,7 @@ public class CombatManager : MonoBehaviour {
         copyPreciseShot = preciseShot.text;
         copyStompAttack = stompAttack.text;
 
-        copyItemOne = itemOne.text;
-        copyItemTwo = itemTwo.text;
-        copyItemThree = itemThree.text;
-        copyItemFour = itemFour.text;
+        copyHpPotion = hpPotion.text;
     }
 
     public void completeAction() {
@@ -162,6 +155,7 @@ public class CombatManager : MonoBehaviour {
                             switchSelection();
                             break;
                         case 2:
+                            Debug.Log("player has " + player.getHPFlaskAmount() + " hp flasks");
                             changeMenu(BattleMenu.Items);
                             switchSelection();
                             break;
@@ -189,9 +183,13 @@ public class CombatManager : MonoBehaviour {
                     break;
                 case BattleMenu.Items:
                     switch(currentSelection)
-                    { //TODO use items
+                    {
                         case 1:
-                            
+                            if (player.getHPFlaskAmount() > 0) {
+                                player.useHPPotion();
+                                hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
+                                playerHPText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
+                            }
                             break;
                     }
                     break;
@@ -220,9 +218,11 @@ public class CombatManager : MonoBehaviour {
         if (inCombat)
         {
             HPPanel.SetActive(false);
+            XPPanel.SetActive(false);
         } else
         {
             HPPanel.SetActive(true);
+            XPPanel.SetActive(true);
         }
     }
 
@@ -250,10 +250,7 @@ public class CombatManager : MonoBehaviour {
                         stompAttack.text = copyStompAttack;
                         break;
                     case BattleMenu.Items:
-                        itemOne.text = "> " + copyItemOne;
-                        itemTwo.text = copyItemTwo;
-                        itemThree.text = copyItemThree;
-                        itemFour.text = copyItemFour;
+                        //hpPotion.text = "> " + copyHpPotion;
                         break;
                 }
                 break;
@@ -272,10 +269,7 @@ public class CombatManager : MonoBehaviour {
                         stompAttack.text = copyStompAttack;
                         break;
                     case BattleMenu.Items:
-                        itemOne.text = copyItemOne;
-                        itemTwo.text = "> " + copyItemTwo;
-                        itemThree.text = copyItemThree;
-                        itemFour.text = copyItemFour;
+                        //hpPotion.text = copyHpPotion;
                         break;
                 }
                 break;
@@ -294,10 +288,7 @@ public class CombatManager : MonoBehaviour {
                         stompAttack.text = copyStompAttack;
                         break;
                     case BattleMenu.Items:
-                        itemOne.text = copyItemOne;
-                        itemTwo.text = copyItemTwo;
-                        itemThree.text = "> " + copyItemThree;
-                        itemFour.text = copyItemFour;
+                        //hpPotion.text = copyHpPotion;
                         break;
                 }
                 break;
@@ -311,10 +302,7 @@ public class CombatManager : MonoBehaviour {
                         stompAttack.text = "> " + copyStompAttack;
                         break;
                     case BattleMenu.Items:
-                        itemOne.text = copyItemOne;
-                        itemTwo.text = copyItemTwo;
-                        itemThree.text = copyItemThree;
-                        itemFour.text = "> " + copyItemFour;
+                        //hpPotion.text = copyHpPotion;
                         break;
                 }
                 break;
@@ -425,7 +413,8 @@ public class CombatManager : MonoBehaviour {
     private void endCombat()
     {
         jumpAndRunUIText.text = "HP " + player.getHP() + "/" + player.getFullHP();
-        HPPanel.SetActive(true);
+        player.changeXP(enemyBase.getxpReward());
+        xpText.text = "XP " + player.getXP() + "/" + player.getXPForLevel(player.getLevel());
         Destroy(touchedEnemy);
         playerCamera.SetActive(true);
         battleCamera.SetActive(false);
@@ -443,7 +432,6 @@ public class CombatManager : MonoBehaviour {
             Debug.Log("Failed to escape!");
         } else
         {
-            HPPanel.SetActive(true);
             Debug.Log("Escape successful!");
             playerCamera.SetActive(true);
             battleCamera.SetActive(false);
@@ -455,6 +443,8 @@ public class CombatManager : MonoBehaviour {
     {
         HPPanel.SetActive(false);
         playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+        hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
+        Debug.Log(hpPotion.text);
 
         touchedEnemy = enemyObject;
         playerCamera.SetActive(false);

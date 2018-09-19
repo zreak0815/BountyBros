@@ -22,6 +22,8 @@ public abstract class EnemyBase : MonoBehaviour {
     protected int fullHP = 40;
     protected int HP = 40;
 
+    protected int xpReward = 50;
+
     protected int basicAttackDamage = 5;
     protected int defence = 0;
     protected float evasion = 0.1f;
@@ -56,6 +58,11 @@ public abstract class EnemyBase : MonoBehaviour {
 
     public int getFullHP() {
         return fullHP;
+    }
+
+    public int getxpReward()
+    {
+        return xpReward;
     }
 
     abstract public enemyType GetEnemyType();
