@@ -30,6 +30,7 @@ public class HittableItem : MonoBehaviour {
                 playerValues.changeHPFlaskAmount(amount);
                 print(amount.ToString() + " Items collected!");
                 collected = true;
+                Destroy(hurtbox.gameObject);
             }
         }
     }

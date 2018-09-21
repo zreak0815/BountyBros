@@ -443,6 +443,7 @@ public class CombatManager : MonoBehaviour {
     {
         HPPanel.SetActive(false);
         playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+        enemyHPText.text = "HP " + enemyType.getHP() + "/" + enemyType.getFullHP();
         hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
         Debug.Log(hpPotion.text);
 
