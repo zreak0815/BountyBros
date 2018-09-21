@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ Klasse für das Charaktermenü
+     */
+
 public class JumpAndRunUIControl : MonoBehaviour {
    private bool KeyIsPressed = false;
    private bool Displayed = false;

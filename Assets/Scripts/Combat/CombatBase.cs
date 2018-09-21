@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ Abstrakte Klasse für den Kampf
+     */
 public abstract class CombatBase : MonoBehaviour {
 
     protected CombatManager combatManager;

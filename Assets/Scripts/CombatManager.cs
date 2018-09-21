@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ Klasse, die den rundenbasierten Kampf grundlegend steuert und 
+ Befehle an die folgenden Klassen/Funktionen weitergibt.
+     */
+
 public class CombatManager : MonoBehaviour {
 
     //Kameras
@@ -13,33 +18,40 @@ public class CombatManager : MonoBehaviour {
     public GameObject playerPodium;
     public GameObject monsterPodium;
 
-    //Spieler
+    //Spieler-/Gegnerwerte
     public PlayerValues player;
-
     public EnemyBase enemyBase;
 
+    //Aktuelles Menü und aktuelle Auswahl
     public BattleMenu currentMenu;
     public int currentSelection;
 
+    //Ist der Spieler am Zug
     public bool isPlayersTurn;
+
+    //Ist der Spieler im Kampf
     public bool inCombat = false;
 
+    //Lebensanzeigen
     public Text playerHPText;
     public Text enemyHPText;
 
+    //Panel mit Texten für HP und EP für das Jump & Run UI
     public GameObject HPPanel;
     public Text jumpAndRunUIText;
-
     public GameObject XPPanel;
     public Text xpText;
 
+    //Der berührte Gegner
     private GameObject touchedEnemy;
 
+    //Spieler und Gegner
     public CombatBase playerCombat;
     public CombatBase enemyCombat;
 
     public GameObject[] enemyList;
 
+    //Menü um eine Aktion auszuwählen
     [Header("Selection")]
     public GameObject selectionMenu;
     public Text attack;
@@ -50,6 +62,7 @@ public class CombatManager : MonoBehaviour {
     private string copyItem;
     private string copyEscape;
 
+    //Menü um einen Angriff auszuwählen
     [Header("Attacks")]
     public GameObject attackMenu;
     public Text lightHit;
@@ -62,6 +75,7 @@ public class CombatManager : MonoBehaviour {
     private string copyPreciseShot;
     private string copyStompAttack;
 
+    //Menü um ein Item auszuwählen
     [Header("Items")]
     public GameObject itemsMenu;
     public Text hpPotion;
@@ -72,6 +86,7 @@ public class CombatManager : MonoBehaviour {
     private bool savedEvade = false;
     private bool canAttack = true;
 
+    //Enum für mögliche Aktionen
     public enum BattleMenu
     {
         Selection,
@@ -100,9 +115,6 @@ public class CombatManager : MonoBehaviour {
         copyHpPotion = hpPotion.text;
     }
 
-    public void completeAction() {
-
-    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -157,7 +169,6 @@ public class CombatManager : MonoBehaviour {
                             switchSelection();
                             break;
                         case 2:
-                            Debug.Log("player has " + player.getHPFlaskAmount() + " hp flasks");
                             changeMenu(BattleMenu.Items);
                             switchSelection();
                             break;
@@ -185,7 +196,7 @@ public class CombatManager : MonoBehaviour {
                     break;
                 case BattleMenu.Items:
                     switch(currentSelection)
-                    {
+                    { // use item
                         case 1:
                             if (player.getHPFlaskAmount() > 0) {
                                 player.useHPPotion();
@@ -214,7 +225,10 @@ public class CombatManager : MonoBehaviour {
 
     }
 
+    // Wechselt, ob der Spieler im Kampf ist oder nicht und
+    // aktiviert die entsprechenden UI Elemente
     public void setInCombat(bool combat)
+
     {
         inCombat = combat;
         if (inCombat)
@@ -228,11 +242,13 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    // Setzt den Spieler in den Kampf
     public bool getInCombat()
     {
         return inCombat;
     }
 
+    // Wechselt die Auswahl des aktullen Menüs
     private  void switchSelection()
     {
         switch (currentMenu) {
@@ -262,6 +278,7 @@ public class CombatManager : MonoBehaviour {
 
     }
 
+    // Wechselt das aktuelle Menü zum übergebenen Menü
     public void changeMenu(BattleMenu battleMenu)
     {
         currentMenu = battleMenu;
@@ -286,6 +303,7 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    // Führt einen Angriff des Gegners aus
     private void performEnemyAttack()
     {
         float evaded = Random.Range(0.0f, 1.0f);
@@ -297,6 +315,7 @@ public class CombatManager : MonoBehaviour {
 
     }
 
+    // Führt einen Angriff des Spielers aus
     private void performPlayerAttack (int attackSkillIndex)
     {
         if (canAttack && player.getCooldownFromAttack(attackSkillIndex) == 0) {
@@ -305,7 +324,6 @@ public class CombatManager : MonoBehaviour {
 
             savedDamage = Mathf.RoundToInt((player.getDamageFromAttack(attackSkillIndex) - enemyBase.getDefence()) * Random.Range(0.8f, 1.2f));
 
-            //isPlayersTurn = !isPlayersTurn;
             playerCombat.performAttackAnimation(attackSkillIndex);
             canAttack = false;
 
@@ -341,6 +359,7 @@ public class CombatManager : MonoBehaviour {
         setTextState(stompAttack, copyStompAttack, player.getCooldownFromAttack(4), currentSelection == 4);
     }
 
+    // Beendet einen Spielzug
     public void endTurn() {
         isPlayersTurn = !isPlayersTurn;
 
@@ -362,6 +381,7 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    // Fügt entsprechenden Schaden zu
     public void dealDamage() {
         if (savedEvade) {
             Debug.Log((isPlayersTurn ? "Enemy" : "Player") + " evaded!");
@@ -375,7 +395,6 @@ public class CombatManager : MonoBehaviour {
                 if (enemyBase.getHP() <= 0) {
                     enemyCombat.playDefeatAnimation();
                 }
-
             }
             else {
                 player.changeHP(-savedDamage);
@@ -390,11 +409,13 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    // Lässt den Spieler verlieren
     public void playerLost()
     {
         setInCombat(false);
     }
 
+    // Beendet den Kampf. Der Spieler hat in diesem Fall gewonnen.
     private void endCombat()
     {
         jumpAndRunUIText.text = "HP " + player.getHP() + "/" + player.getFullHP();
@@ -403,9 +424,11 @@ public class CombatManager : MonoBehaviour {
         Destroy(touchedEnemy);
         playerCamera.SetActive(true);
         battleCamera.SetActive(false);
+
         setInCombat(false);
         Debug.Log("Player won fight!");
         Destroy(enemyCombat.gameObject);
+
     }
 
     // Versucht aus dem Kampf zu fliehen
@@ -428,6 +451,7 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    // Startet den Kampf
     public void startCombat(EnemyBase enemyType, GameObject enemyObject, int priority) {
         if (!inCombat) {
             HPPanel.SetActive(false);

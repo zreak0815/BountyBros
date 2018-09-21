@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 public class SimplePlatformController : MonoBehaviour
 {
-
+    // Blickrichtung des Spielers
     [HideInInspector] public bool facingRight = true;
+
+    // Kann der Spieler Doppelsprung oder Stampfangriff ausführen
     [HideInInspector] public bool canDoubleJump;
     [HideInInspector] public bool isStomping;
 
+    // Hat der Spieler die Fähigkeit für den Doppelsprung bzw. den Stampfangriff
     public bool abilityDoubleJump = true;
     public bool abilityStomp = true;
 
@@ -50,17 +53,21 @@ public class SimplePlatformController : MonoBehaviour
     //Combatmanager
     public CombatManager combatManager;
 
+    //Spielerhitbox
     public GameObject playerHitbox;
 
     //Spieler
     public PlayerValues player;
 
+    //Text der HP-Anzeige
     public Text hpText;
 
+    //Unverwundbarkeit nach dem Berühren von Spikes
     private int invincibility = 0;
 
     private int attackTime = 0;
 
+    //initialization
     private void Start() {
         collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
 
@@ -69,6 +76,7 @@ public class SimplePlatformController : MonoBehaviour
         hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
     }
 
+    // Gibt den Skill mit der übergebenen ID zurück
     public void getSkill(int skillId) {
         switch(skillId) {
             case 0:
@@ -96,6 +104,7 @@ public class SimplePlatformController : MonoBehaviour
         }
     }
 
+    // Spieler trifft auf den übergebenen Gegner
     public void metEnemy(EnemyBase enemy, int priority) {
 
         //TODO Erstschlag einbauen
@@ -110,6 +119,7 @@ public class SimplePlatformController : MonoBehaviour
         combatManager.startCombat(enemy, enemy.gameObject, priority);
     }
 
+    //Setzt, ob der Spieler im Kampf ist
     public void setInCombat()
     {
         inCombat = !inCombat;
@@ -119,19 +129,9 @@ public class SimplePlatformController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(player.getHP());
-        if (player.getHP() <= 0 && !combatManager.inCombat)
-        {
+
+        if (player.getHP() <= 0 && !combatManager.inCombat) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            //Vector3 playerSpawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
-            //GameObject.FindGameObjectWithTag("Player").transform.position = playerSpawnPosition;
-            //player.changeHP(player.getFullHP());
-            //TODO play death animation & after respawn: platforms etc are not shown, but player is in correct position
-            //if (inCombat)
-            //{
-            //    inCombat = !inCombat;
-            //    combatManager.playerLost();
-            //}
         }
 
         invincibility = Mathf.Max(0, invincibility - 1);
@@ -248,6 +248,7 @@ public class SimplePlatformController : MonoBehaviour
         }        
     }
 
+    // Prüft, ob die Animation gedreht werden muss
     private void checkFlip(float direction) {
         if (direction > 0 && !facingRight) {
             Flip();
