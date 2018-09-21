@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ Klasse für das Beenden der Anwendung
+     */ 
 public class QuitOnClick : MonoBehaviour {
 
 public void quit()

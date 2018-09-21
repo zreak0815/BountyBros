@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ Klasse für den Gegnertyp Fledermaus
+     */
 public class EnemyBat : EnemyBase {
 
     //Timer für Bewegung

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ Klasse für zerstörbare Objekte
+ */
 public class HittableItem : MonoBehaviour {
 
     public int itemNumber;

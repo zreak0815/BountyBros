@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ Kampfklasse für den Spieler
+     */
 public class CombatHero : CombatBase {
 
     private int performingAttack = 0;

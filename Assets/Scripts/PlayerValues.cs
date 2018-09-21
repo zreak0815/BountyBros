@@ -5,11 +5,15 @@ public class PlayerValues : MonoBehaviour {
     // Lebenspunkte
     public int HP = 100;
     public int fullHP = 100;
+
+    // Spielerlevel
     public int playerLevel = 1;
     public int currentXP = 0;
 
+    // EP pro Level
     public int[] XP_PER_LEVEL = {100, 110, 120, 130 };
 
+    // HP Regeneration bei einem Heiltrank
     public const int HP_POTION_REGEN = 15;
 
    // Prozentwerte für Ausweichen und zusätzliche Verteidigung
@@ -17,6 +21,7 @@ public class PlayerValues : MonoBehaviour {
    public float evasion = 0.1f;
    public float escapeChance = 0.3f;
 
+    // Anzahl der Heiltränke des Spielers
     public int hpFlaskAmount = 0;
 
     // Schadenswerte für Angriffe
@@ -45,6 +50,7 @@ public class PlayerValues : MonoBehaviour {
 
    }
 
+    // Benutzt einen Heiltrank
     public void useHPPotion()
     {
         HP += HP_POTION_REGEN;
@@ -55,11 +61,13 @@ public class PlayerValues : MonoBehaviour {
         hpFlaskAmount--;
     }
 
+    // Verändert die Anzahl der Heiltränke
     public void changeHPFlaskAmount(int amount)
     {
         hpFlaskAmount += amount;
     }
 
+    // Gibt die Anzahl der Heiltränke des Spielers zurück
     public int getHPFlaskAmount()
     {
         return hpFlaskAmount;
@@ -125,6 +133,7 @@ public class PlayerValues : MonoBehaviour {
       return HP;
    }
 
+    // Gibt die maximale HP des Spielers zurück
    public int getFullHP() {
       return fullHP;
    }
@@ -134,6 +143,7 @@ public class PlayerValues : MonoBehaviour {
       playerLevel++;
    }
 
+    // Verändert die Spieler-EP um den entsprechenden Wert
     public void changeXP(int amount)
     {
         currentXP += amount;
@@ -145,11 +155,13 @@ public class PlayerValues : MonoBehaviour {
         }
     }
 
+    // Gibt die EP zurück
     public int getXP()
     {
         return currentXP;
     }
 
+    // Gibt die EP für das übergebene Level zurück
     public int getXPForLevel(int level)
     {
         return XP_PER_LEVEL[level - 1];
@@ -165,22 +177,27 @@ public class PlayerValues : MonoBehaviour {
       defense += amount;
    }
 
+    // Gibt die Verteidigung des Spielers zurück
    public int getDefense() {
       return defense;
    }
 
+    // Verändert den Ausweichwert des Spielers
    public void changeEvasion(float amount) {
       evasion += amount;
    }
 
+    //Gibt den Ausweichwert des Spielers zurück
    public float getEvasion() {
       return evasion;
    }
 
+    // Verändert die Chance aus dem Kampf zu entkommen um den übergebenen Wert
    public void changeEscapeChance(float amount) {
       escapeChance += amount;
    }
 
+    // Gibt die Wahrscheinlichkeit um aus dem Kampf zu entkommen zurück
    public float getEscapeChance() {
       return escapeChance;
    }
