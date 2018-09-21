@@ -38,6 +38,8 @@ public class CombatManager : MonoBehaviour {
     public CombatBase playerCombat;
     public CombatBase enemyCombat;
 
+    public GameObject[] enemyList;
+
     [Header("Selection")]
     public GameObject selectionMenu;
     public Text attack;
@@ -212,9 +214,9 @@ public class CombatManager : MonoBehaviour {
 
     }
 
-    public void setInCombat()
+    public void setInCombat(bool combat)
     {
-        inCombat = !inCombat;
+        inCombat = combat;
         if (inCombat)
         {
             HPPanel.SetActive(false);
@@ -233,80 +235,31 @@ public class CombatManager : MonoBehaviour {
 
     private  void switchSelection()
     {
-        switch (currentSelection)
-        {
-            case 1:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Selection:
+        switch (currentMenu) {
+            case BattleMenu.Selection:
+                attack.text = copyAttack;
+                item.text = copyItem;
+                escape.text = copyEscape;
+                switch(currentSelection) {
+                    case 1:
                         attack.text = "> " + copyAttack;
-                        item.text = copyItem;
-                        escape.text = copyEscape;
                         break;
-                    case BattleMenu.Attacks:
-                        lightHit.text = "> " + copyLightHit;
-                        heavyHit.text = copyHeavyHit;
-                        preciseShot.text = copyPreciseShot;
-                        stompAttack.text = copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = "> " + copyHpPotion;
-                        break;
-                }
-                break;
-            case 2:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Selection:
+                    case 2:
                         item.text = "> " + copyItem;
-                        attack.text = copyAttack;
-                        escape.text = copyEscape;
                         break;
-                    case BattleMenu.Attacks:
-                        lightHit.text = copyLightHit;
-                        heavyHit.text = "> " + copyHeavyHit;
-                        preciseShot.text = copyPreciseShot;
-                        stompAttack.text = copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = copyHpPotion;
-                        break;
-                }
-                break;
-            case 3:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Selection:
+                    case 3:
                         escape.text = "> " + copyEscape;
-                        attack.text = copyAttack;
-                        item.text = copyItem;
-                        break;
-                    case BattleMenu.Attacks:
-                        lightHit.text = copyLightHit;
-                        heavyHit.text = copyHeavyHit;
-                        preciseShot.text = "> " + copyPreciseShot;
-                        stompAttack.text = copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = copyHpPotion;
                         break;
                 }
                 break;
-            case 4:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Attacks:
-                        lightHit.text = copyLightHit;
-                        heavyHit.text = copyHeavyHit;
-                        preciseShot.text = copyPreciseShot; ;
-                        stompAttack.text = "> " + copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = copyHpPotion;
-                        break;
-                }
+            case BattleMenu.Attacks:
+                updateAttackNames();
+                break;
+            case BattleMenu.Items:
+                //hpPotion.text = copyHpPotion;
                 break;
         }
+
     }
 
     public void changeMenu(BattleMenu battleMenu)
@@ -335,47 +288,75 @@ public class CombatManager : MonoBehaviour {
 
     private void performEnemyAttack()
     {
-        int attackDamage = 0;
         float evaded = Random.Range(0.0f, 1.0f);
-        if (player.getEvasion() > evaded)
-        {
-            Debug.Log("Player evaded!");
-        } else
-        {
-            attackDamage = enemyBase.getBasicAttackDamage() - player.getDefense();
-            player.changeHP(-attackDamage);
-            if (player.getHP() <= 0)
-            {
-                playerLost();
-            } else
-            {
-                playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
-            }
-            Debug.Log("Player hit with " + attackDamage + " damage!");
-        }
+        savedEvade = enemyBase.getEvasion() > evaded;
 
-        endTurn();
+        savedDamage = Mathf.RoundToInt((enemyBase.getBasicAttackDamage() - player.getDefense()) * Random.Range(0.8f, 1.2f));
+
+        enemyCombat.performAttackAnimation(1);
+
     }
 
     private void performPlayerAttack (int attackSkillIndex)
     {
-        if (canAttack) {
+        if (canAttack && player.getCooldownFromAttack(attackSkillIndex) == 0) {
             float evaded = Random.Range(0.0f, 1.0f);
             savedEvade = enemyBase.getEvasion() > evaded;
 
-            savedDamage = player.getDamageFromAttack(attackSkillIndex) - enemyBase.getDefence();
+            savedDamage = Mathf.RoundToInt((player.getDamageFromAttack(attackSkillIndex) - enemyBase.getDefence()) * Random.Range(0.8f, 1.2f));
 
             //isPlayersTurn = !isPlayersTurn;
             playerCombat.performAttackAnimation(attackSkillIndex);
             canAttack = false;
+
+            player.setCooldownFromAttack(attackSkillIndex);
+            updateAttackNames();
         }
         
     }
 
+    private void setTextState(Text text, string name, int timeout, bool selected) {
+        if (timeout == 0) {
+            text.text = name;
+            text.color = Color.black;
+        } else {
+            text.text = name + " - " + timeout.ToString();
+            text.color = Color.gray;
+        }
+
+        if (selected) {
+            text.text = "> " + text.text;
+        }
+    }
+
+    private void reduceCooldowns() {
+        player.reduceCooldowns();
+        updateAttackNames();
+    }
+
+    private void updateAttackNames() {
+        setTextState(lightHit, copyLightHit, 0, currentSelection == 1);
+        setTextState(heavyHit, copyHeavyHit, player.getCooldownFromAttack(2), currentSelection == 2);
+        setTextState(preciseShot, copyPreciseShot, player.getCooldownFromAttack(3), currentSelection == 3);
+        setTextState(stompAttack, copyStompAttack, player.getCooldownFromAttack(4), currentSelection == 4);
+    }
+
     public void endTurn() {
         isPlayersTurn = !isPlayersTurn;
+
+        if (player.getHP() <= 0) {
+            playerLost();
+            return;
+        }
+
+        if (enemyBase.getHP() <= 0) {
+            endCombat();
+            return;
+        }
+
         if (isPlayersTurn) {
             canAttack = true;
+            reduceCooldowns();
         } else {
             performEnemyAttack();
         }
@@ -389,15 +370,21 @@ public class CombatManager : MonoBehaviour {
             if (isPlayersTurn) {
                 enemyBase.changeHP(-savedDamage);
                 enemyHPText.text = "HP " + enemyBase.getHP() + "/" + enemyBase.getFullHP();
+                enemyCombat.playHurtAnimation();
 
                 if (enemyBase.getHP() <= 0) {
-                    endCombat();
+                    enemyCombat.playDefeatAnimation();
                 }
 
-                //performEnemyAttack();
             }
             else {
                 player.changeHP(-savedDamage);
+                playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+                playerCombat.playHurtAnimation();
+
+                if (player.getHP() <= 0) {
+                    playerCombat.playDefeatAnimation();
+                }
             }
             Debug.Log((isPlayersTurn ? "Enemy" : "Player") + " hit with " + savedDamage + " damage!");
         }
@@ -405,9 +392,7 @@ public class CombatManager : MonoBehaviour {
 
     public void playerLost()
     {
-        playerCamera.SetActive(true);
-        battleCamera.SetActive(false);
-        setInCombat();
+        setInCombat(false);
     }
 
     private void endCombat()
@@ -418,45 +403,65 @@ public class CombatManager : MonoBehaviour {
         Destroy(touchedEnemy);
         playerCamera.SetActive(true);
         battleCamera.SetActive(false);
-        setInCombat();
+        setInCombat(false);
         Debug.Log("Player won fight!");
+        Destroy(enemyCombat.gameObject);
     }
 
     // Versucht aus dem Kampf zu fliehen
     private void tryEscape()
     {
-        float escape = Random.Range(0.0f, 1.0f);
-        Debug.Log(escape);
-        if (player.getEscapeChance() < escape)
-        {
-            Debug.Log("Failed to escape!");
-        } else
-        {
-            Debug.Log("Escape successful!");
-            playerCamera.SetActive(true);
-            battleCamera.SetActive(false);
-            setInCombat();
+        if (isPlayersTurn) {
+            float escape = Random.Range(0.0f, 1.0f);
+            Debug.Log(escape);
+            if (player.getEscapeChance() < escape) {
+                Debug.Log("Failed to escape!");
+                endTurn();
+            }
+            else {
+                HPPanel.SetActive(true);
+                Debug.Log("Escape successful!");
+                playerCamera.SetActive(true);
+                battleCamera.SetActive(false);
+                setInCombat(false);
+            }
         }
     }
 
-    public void startCombat(EnemyBase enemyType, GameObject enemyObject, int priority)
-    {
-        HPPanel.SetActive(false);
-        playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
-        enemyHPText.text = "HP " + enemyType.getHP() + "/" + enemyType.getFullHP();
-        hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
-        Debug.Log(hpPotion.text);
+    public void startCombat(EnemyBase enemyType, GameObject enemyObject, int priority) {
+        if (!inCombat) {
+            HPPanel.SetActive(false);
+            playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+            hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
+            Debug.Log(hpPotion.text);
 
-        touchedEnemy = enemyObject;
-        playerCamera.SetActive(false);
-        battleCamera.SetActive(true);
-        changeMenu(BattleMenu.Selection);
-        switchSelection();
+            touchedEnemy = enemyObject;
+            playerCamera.SetActive(false);
+            battleCamera.SetActive(true);
+            changeMenu(BattleMenu.Selection);
+            switchSelection();
 
-        playerCombat.setTarget(true);
-        enemyCombat.setTarget(false);
+            GameObject enemy = Instantiate(enemyList[(int)enemyType.GetEnemyType()], monsterPodium.transform);
+            enemyCombat = enemy.GetComponent<CombatBase>();
 
-        enemyBase = enemyType;
-        canAttack = true;
+            playerCombat.setTarget(true);
+            enemyCombat.setTarget(false);
+
+            enemyBase = enemyType;
+            canAttack = true;
+
+            if (priority >= 0) {
+                isPlayersTurn = true;
+            }
+            else {
+                isPlayersTurn = false;
+                performEnemyAttack();
+            }
+
+            setInCombat(true);
+            enemyHPText.text = "HP " + enemyBase.getHP() + "/" + enemyBase.getFullHP();
+
+            reduceCooldowns();
+        }
     }
 }

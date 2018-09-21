@@ -35,6 +35,8 @@ public class PlayerValues : MonoBehaviour {
    public int cooldownPreciseShot = 3;
    public int cooldownStompAttack = 5;
 
+   public int[] attacksCooldown = { 0, 0, 0, 0 };
+
    // Use this for initialization
    void Start() {
 
@@ -63,38 +65,33 @@ public class PlayerValues : MonoBehaviour {
     public int getHPFlaskAmount()
     {
         return hpFlaskAmount;
+
     }
 
-   public int getCooldownFromAttack(int attackSkillIndex) {
-      switch (attackSkillIndex) {
-         case 1:
-            return cooldownLightAttack;
-         case 2:
-            return cooldownHeavyAttack;
-         case 3:
-            return cooldownPreciseShot;
-         case 4:
-            return cooldownStompAttack;
-         default:
-            // wird nie eintreten
-            return -1;
-      }
-   }
+    public void reduceCooldowns() {
+        for (int i = 0; i < attacksCooldown.Length; i++) {
+            attacksCooldown[i] = Mathf.Max(0, attacksCooldown[i] - 1);
+        }
+    }
 
-   public void setCooldownFromAttack(int attackSkillIndex, int value) {
+    public int getCooldownFromAttack(int attackSkillIndex) {
+        return attacksCooldown[attackSkillIndex - 1];
+    }
+
+   public void setCooldownFromAttack(int attackSkillIndex) {
       switch (attackSkillIndex) {
          case 1:
             // lightAttack besitzt keinen cooldown
             break;
          case 2:
-            cooldownHeavyAttack = value;
+                attacksCooldown[attackSkillIndex - 1] = cooldownHeavyAttack;
             break;
          case 3:
-            cooldownPreciseShot = value;
-            break;
+                attacksCooldown[attackSkillIndex - 1] = cooldownPreciseShot;
+                break;
          case 4:
-            cooldownStompAttack = value;
-            break;
+                attacksCooldown[attackSkillIndex - 1] = cooldownStompAttack;
+                break;
       }
    }
 
@@ -115,13 +112,16 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
-   // Verändert die HP um den übergebenen Wert
-   public void changeHP(int amount) {
-      HP += amount;
-   }
+    // Verändert die HP um den übergebenen Wert
+    public void changeHP(int amount) {
+        HP += amount;
+        if (HP < 0) {
+            HP = 0;
+        }
+    }
 
-   // Gibt die HP zurück
-   public int getHP() {
+    // Gibt die HP zurück
+    public int getHP() {
       return HP;
    }
 

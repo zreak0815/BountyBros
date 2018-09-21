@@ -25,14 +25,14 @@ public class EnemySlime : EnemyBase {
     private bool grounded = false;
 
     void Awake() {
-        fullHP = 40;
+        fullHP = 45;
         HP = fullHP;
 
         xpReward = 50;
 
-        basicAttackDamage = 5;
-        defence = 0;
-        evasion = 0.1f;
+        basicAttackDamage = 8;
+        defence = 3;
+        evasion = 0.05f;
 
         anim = GetComponent<Animator>();
         tag = "Slime";

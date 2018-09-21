@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SimplePlatformController : MonoBehaviour
@@ -102,9 +103,6 @@ public class SimplePlatformController : MonoBehaviour
             print("Spieler hat Erstschlag!");
         }
 
-        //Gegner wurde berührt
-        combatManager.setInCombat();
-
         collisionBox.setHSpeed(0f);
         collisionBox.setVSpeed(0f);
 
@@ -122,17 +120,18 @@ public class SimplePlatformController : MonoBehaviour
     void Update()
     {
         //Debug.Log(player.getHP());
-        if (player.getHP() <= 0)
+        if (player.getHP() <= 0 && !combatManager.inCombat)
         {
-            Vector3 playerSpawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
-            GameObject.FindGameObjectWithTag("Player").transform.position = playerSpawnPosition;
-            player.changeHP(player.getFullHP());
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //Vector3 playerSpawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+            //GameObject.FindGameObjectWithTag("Player").transform.position = playerSpawnPosition;
+            //player.changeHP(player.getFullHP());
             //TODO play death animation & after respawn: platforms etc are not shown, but player is in correct position
-            if (inCombat)
-            {
-                inCombat = !inCombat;
-                combatManager.playerLost();
-            }
+            //if (inCombat)
+            //{
+            //    inCombat = !inCombat;
+            //    combatManager.playerLost();
+            //}
         }
 
         invincibility = Mathf.Max(0, invincibility - 1);

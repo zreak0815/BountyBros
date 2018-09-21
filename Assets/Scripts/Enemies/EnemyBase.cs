@@ -42,6 +42,9 @@ public abstract class EnemyBase : MonoBehaviour {
 
     public void changeHP(int amount) {
         HP += amount;
+        if (HP < 0) {
+            HP = 0;
+        }
     }
 
     public int getDefence() {
