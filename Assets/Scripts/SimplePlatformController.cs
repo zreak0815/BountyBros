@@ -62,6 +62,9 @@ public class SimplePlatformController : MonoBehaviour
     //Text der HP-Anzeige
     public Text hpText;
 
+    // True, wenn eine TextBox angezeigt wird, sonst false
+    private bool activeTextBox = false;
+
     //Unverwundbarkeit nach dem Berühren von Spikes
     private int invincibility = 0;
 
@@ -125,6 +128,17 @@ public class SimplePlatformController : MonoBehaviour
         inCombat = !inCombat;
     }
 
+    public void textBoxTriggered()
+    {
+        setActiveTextBox();
+
+        collisionBox.setHSpeed(0f);
+    }
+
+    public void setActiveTextBox()
+    {
+        activeTextBox = !activeTextBox;
+    }
 
     // Update is called once per frame
     void Update()
@@ -264,7 +278,7 @@ public class SimplePlatformController : MonoBehaviour
 
         bool fixedGrounded = collisionBox.isGrounded();
 
-        if (!inCombat) {
+        if (!inCombat && !activeTextBox) {
             if (fixedGrounded)
             {
                 if (attackTime > 0) {
