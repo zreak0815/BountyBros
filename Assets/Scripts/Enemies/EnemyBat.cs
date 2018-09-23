@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ Klasse für den Gegnertyp Fledermaus
+     */
 public class EnemyBat : EnemyBase {
 
     //Timer für Bewegung
@@ -21,14 +24,14 @@ public class EnemyBat : EnemyBase {
     private MoveState movement;
 
     private void Awake() {
-        fullHP = 25;
+        fullHP = 35;
         HP = fullHP;
 
         xpReward = 50;
 
-        basicAttackDamage = 6;
+        basicAttackDamage = 11;
         defence = 0;
-        evasion = 0.2f;
+        evasion = 0.25f;
 
         anim = GetComponent<Animator>();
     }

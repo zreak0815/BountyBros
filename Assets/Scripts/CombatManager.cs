@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ Klasse, die den rundenbasierten Kampf grundlegend steuert und 
+ Befehle an die folgenden Klassen/Funktionen weitergibt.
+     */
+
 public class CombatManager : MonoBehaviour {
 
     //Kameras
@@ -13,31 +18,40 @@ public class CombatManager : MonoBehaviour {
     public GameObject playerPodium;
     public GameObject monsterPodium;
 
-    //Spieler
+    //Spieler-/Gegnerwerte
     public PlayerValues player;
-
     public EnemyBase enemyBase;
 
+    //Aktuelles Menü und aktuelle Auswahl
     public BattleMenu currentMenu;
     public int currentSelection;
 
+    //Ist der Spieler am Zug
     public bool isPlayersTurn;
+
+    //Ist der Spieler im Kampf
     public bool inCombat = false;
 
+    //Lebensanzeigen
     public Text playerHPText;
     public Text enemyHPText;
 
+    //Panel mit Texten für HP und EP für das Jump & Run UI
     public GameObject HPPanel;
     public Text jumpAndRunUIText;
-
     public GameObject XPPanel;
     public Text xpText;
 
+    //Der berührte Gegner
     private GameObject touchedEnemy;
 
+    //Spieler und Gegner
     public CombatBase playerCombat;
     public CombatBase enemyCombat;
 
+    public GameObject[] enemyList;
+
+    //Menü um eine Aktion auszuwählen
     [Header("Selection")]
     public GameObject selectionMenu;
     public Text attack;
@@ -48,6 +62,7 @@ public class CombatManager : MonoBehaviour {
     private string copyItem;
     private string copyEscape;
 
+    //Menü um einen Angriff auszuwählen
     [Header("Attacks")]
     public GameObject attackMenu;
     public Text lightHit;
@@ -60,6 +75,7 @@ public class CombatManager : MonoBehaviour {
     private string copyPreciseShot;
     private string copyStompAttack;
 
+    //Menü um ein Item auszuwählen
     [Header("Items")]
     public GameObject itemsMenu;
     public Text hpPotion;
@@ -70,6 +86,7 @@ public class CombatManager : MonoBehaviour {
     private bool savedEvade = false;
     private bool canAttack = true;
 
+    //Enum für mögliche Aktionen
     public enum BattleMenu
     {
         Selection,
@@ -98,9 +115,6 @@ public class CombatManager : MonoBehaviour {
         copyHpPotion = hpPotion.text;
     }
 
-    public void completeAction() {
-
-    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -155,7 +169,6 @@ public class CombatManager : MonoBehaviour {
                             switchSelection();
                             break;
                         case 2:
-                            Debug.Log("player has " + player.getHPFlaskAmount() + " hp flasks");
                             changeMenu(BattleMenu.Items);
                             switchSelection();
                             break;
@@ -183,7 +196,7 @@ public class CombatManager : MonoBehaviour {
                     break;
                 case BattleMenu.Items:
                     switch(currentSelection)
-                    {
+                    { // use item
                         case 1:
                             if (player.getHPFlaskAmount() > 0) {
                                 player.useHPPotion();
@@ -212,9 +225,12 @@ public class CombatManager : MonoBehaviour {
 
     }
 
-    public void setInCombat()
+    // Wechselt, ob der Spieler im Kampf ist oder nicht und
+    // aktiviert die entsprechenden UI Elemente
+    public void setInCombat(bool combat)
+
     {
-        inCombat = !inCombat;
+        inCombat = combat;
         if (inCombat)
         {
             HPPanel.SetActive(false);
@@ -226,89 +242,43 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    // Setzt den Spieler in den Kampf
     public bool getInCombat()
     {
         return inCombat;
     }
 
+    // Wechselt die Auswahl des aktullen Menüs
     private  void switchSelection()
     {
-        switch (currentSelection)
-        {
-            case 1:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Selection:
+        switch (currentMenu) {
+            case BattleMenu.Selection:
+                attack.text = copyAttack;
+                item.text = copyItem;
+                escape.text = copyEscape;
+                switch(currentSelection) {
+                    case 1:
                         attack.text = "> " + copyAttack;
-                        item.text = copyItem;
-                        escape.text = copyEscape;
                         break;
-                    case BattleMenu.Attacks:
-                        lightHit.text = "> " + copyLightHit;
-                        heavyHit.text = copyHeavyHit;
-                        preciseShot.text = copyPreciseShot;
-                        stompAttack.text = copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = "> " + copyHpPotion;
-                        break;
-                }
-                break;
-            case 2:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Selection:
+                    case 2:
                         item.text = "> " + copyItem;
-                        attack.text = copyAttack;
-                        escape.text = copyEscape;
                         break;
-                    case BattleMenu.Attacks:
-                        lightHit.text = copyLightHit;
-                        heavyHit.text = "> " + copyHeavyHit;
-                        preciseShot.text = copyPreciseShot;
-                        stompAttack.text = copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = copyHpPotion;
-                        break;
-                }
-                break;
-            case 3:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Selection:
+                    case 3:
                         escape.text = "> " + copyEscape;
-                        attack.text = copyAttack;
-                        item.text = copyItem;
-                        break;
-                    case BattleMenu.Attacks:
-                        lightHit.text = copyLightHit;
-                        heavyHit.text = copyHeavyHit;
-                        preciseShot.text = "> " + copyPreciseShot;
-                        stompAttack.text = copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = copyHpPotion;
                         break;
                 }
                 break;
-            case 4:
-                switch (currentMenu)
-                {
-                    case BattleMenu.Attacks:
-                        lightHit.text = copyLightHit;
-                        heavyHit.text = copyHeavyHit;
-                        preciseShot.text = copyPreciseShot; ;
-                        stompAttack.text = "> " + copyStompAttack;
-                        break;
-                    case BattleMenu.Items:
-                        //hpPotion.text = copyHpPotion;
-                        break;
-                }
+            case BattleMenu.Attacks:
+                updateAttackNames();
+                break;
+            case BattleMenu.Items:
+                //hpPotion.text = copyHpPotion;
                 break;
         }
+
     }
 
+    // Wechselt das aktuelle Menü zum übergebenen Menü
     public void changeMenu(BattleMenu battleMenu)
     {
         currentMenu = battleMenu;
@@ -333,54 +303,85 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    // Führt einen Angriff des Gegners aus
     private void performEnemyAttack()
     {
-        int attackDamage = 0;
         float evaded = Random.Range(0.0f, 1.0f);
-        if (player.getEvasion() > evaded)
-        {
-            Debug.Log("Player evaded!");
-        } else
-        {
-            attackDamage = enemyBase.getBasicAttackDamage() - player.getDefense();
-            player.changeHP(-attackDamage);
-            if (player.getHP() <= 0)
-            {
-                playerLost();
-            } else
-            {
-                playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
-            }
-            Debug.Log("Player hit with " + attackDamage + " damage!");
-        }
+        savedEvade = enemyBase.getEvasion() > evaded;
 
-        endTurn();
+        savedDamage = Mathf.RoundToInt((enemyBase.getBasicAttackDamage() - player.getDefense()) * Random.Range(0.8f, 1.2f));
+
+        enemyCombat.performAttackAnimation(1);
+
     }
 
+    // Führt einen Angriff des Spielers aus
     private void performPlayerAttack (int attackSkillIndex)
     {
-        if (canAttack) {
+        if (canAttack && player.getCooldownFromAttack(attackSkillIndex) == 0) {
             float evaded = Random.Range(0.0f, 1.0f);
             savedEvade = enemyBase.getEvasion() > evaded;
 
-            savedDamage = player.getDamageFromAttack(attackSkillIndex) - enemyBase.getDefence();
+            savedDamage = Mathf.RoundToInt((player.getDamageFromAttack(attackSkillIndex) - enemyBase.getDefence()) * Random.Range(0.8f, 1.2f));
 
-            //isPlayersTurn = !isPlayersTurn;
             playerCombat.performAttackAnimation(attackSkillIndex);
             canAttack = false;
+
+            player.setCooldownFromAttack(attackSkillIndex);
+            updateAttackNames();
         }
         
     }
 
+    private void setTextState(Text text, string name, int timeout, bool selected) {
+        if (timeout == 0) {
+            text.text = name;
+            text.color = Color.black;
+        } else {
+            text.text = name + " - " + timeout.ToString();
+            text.color = Color.gray;
+        }
+
+        if (selected) {
+            text.text = "> " + text.text;
+        }
+    }
+
+    private void reduceCooldowns() {
+        player.reduceCooldowns();
+        updateAttackNames();
+    }
+
+    private void updateAttackNames() {
+        setTextState(lightHit, copyLightHit, 0, currentSelection == 1);
+        setTextState(heavyHit, copyHeavyHit, player.getCooldownFromAttack(2), currentSelection == 2);
+        setTextState(preciseShot, copyPreciseShot, player.getCooldownFromAttack(3), currentSelection == 3);
+        setTextState(stompAttack, copyStompAttack, player.getCooldownFromAttack(4), currentSelection == 4);
+    }
+
+    // Beendet einen Spielzug
     public void endTurn() {
         isPlayersTurn = !isPlayersTurn;
+
+        if (player.getHP() <= 0) {
+            playerLost();
+            return;
+        }
+
+        if (enemyBase.getHP() <= 0) {
+            endCombat();
+            return;
+        }
+
         if (isPlayersTurn) {
             canAttack = true;
+            reduceCooldowns();
         } else {
             performEnemyAttack();
         }
     }
 
+    // Fügt entsprechenden Schaden zu
     public void dealDamage() {
         if (savedEvade) {
             Debug.Log((isPlayersTurn ? "Enemy" : "Player") + " evaded!");
@@ -389,27 +390,32 @@ public class CombatManager : MonoBehaviour {
             if (isPlayersTurn) {
                 enemyBase.changeHP(-savedDamage);
                 enemyHPText.text = "HP " + enemyBase.getHP() + "/" + enemyBase.getFullHP();
+                enemyCombat.playHurtAnimation();
 
                 if (enemyBase.getHP() <= 0) {
-                    endCombat();
+                    enemyCombat.playDefeatAnimation();
                 }
-
-                //performEnemyAttack();
             }
             else {
                 player.changeHP(-savedDamage);
+                playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+                playerCombat.playHurtAnimation();
+
+                if (player.getHP() <= 0) {
+                    playerCombat.playDefeatAnimation();
+                }
             }
             Debug.Log((isPlayersTurn ? "Enemy" : "Player") + " hit with " + savedDamage + " damage!");
         }
     }
 
+    // Lässt den Spieler verlieren
     public void playerLost()
     {
-        playerCamera.SetActive(true);
-        battleCamera.SetActive(false);
-        setInCombat();
+        setInCombat(false);
     }
 
+    // Beendet den Kampf. Der Spieler hat in diesem Fall gewonnen.
     private void endCombat()
     {
         jumpAndRunUIText.text = "HP " + player.getHP() + "/" + player.getFullHP();
@@ -418,44 +424,68 @@ public class CombatManager : MonoBehaviour {
         Destroy(touchedEnemy);
         playerCamera.SetActive(true);
         battleCamera.SetActive(false);
-        setInCombat();
+
+        setInCombat(false);
         Debug.Log("Player won fight!");
+        Destroy(enemyCombat.gameObject);
+
     }
 
     // Versucht aus dem Kampf zu fliehen
     private void tryEscape()
     {
-        float escape = Random.Range(0.0f, 1.0f);
-        Debug.Log(escape);
-        if (player.getEscapeChance() < escape)
-        {
-            Debug.Log("Failed to escape!");
-        } else
-        {
-            Debug.Log("Escape successful!");
-            playerCamera.SetActive(true);
-            battleCamera.SetActive(false);
-            setInCombat();
+        if (isPlayersTurn) {
+            float escape = Random.Range(0.0f, 1.0f);
+            Debug.Log(escape);
+            if (player.getEscapeChance() < escape) {
+                Debug.Log("Failed to escape!");
+                endTurn();
+            }
+            else {
+                HPPanel.SetActive(true);
+                Debug.Log("Escape successful!");
+                playerCamera.SetActive(true);
+                battleCamera.SetActive(false);
+                setInCombat(false);
+            }
         }
     }
 
-    public void startCombat(EnemyBase enemyType, GameObject enemyObject, int priority)
-    {
-        HPPanel.SetActive(false);
-        playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
-        hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
-        Debug.Log(hpPotion.text);
+    // Startet den Kampf
+    public void startCombat(EnemyBase enemyType, GameObject enemyObject, int priority) {
+        if (!inCombat) {
+            HPPanel.SetActive(false);
+            playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
+            hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
+            Debug.Log(hpPotion.text);
 
-        touchedEnemy = enemyObject;
-        playerCamera.SetActive(false);
-        battleCamera.SetActive(true);
-        changeMenu(BattleMenu.Selection);
-        switchSelection();
+            touchedEnemy = enemyObject;
+            playerCamera.SetActive(false);
+            battleCamera.SetActive(true);
+            changeMenu(BattleMenu.Selection);
+            switchSelection();
 
-        playerCombat.setTarget(true);
-        enemyCombat.setTarget(false);
+            GameObject enemy = Instantiate(enemyList[(int)enemyType.GetEnemyType()], monsterPodium.transform);
+            enemyCombat = enemy.GetComponent<CombatBase>();
 
-        enemyBase = enemyType;
-        canAttack = true;
+            playerCombat.setTarget(true);
+            enemyCombat.setTarget(false);
+
+            enemyBase = enemyType;
+            canAttack = true;
+
+            if (priority >= 0) {
+                isPlayersTurn = true;
+            }
+            else {
+                isPlayersTurn = false;
+                performEnemyAttack();
+            }
+
+            setInCombat(true);
+            enemyHPText.text = "HP " + enemyBase.getHP() + "/" + enemyBase.getFullHP();
+
+            reduceCooldowns();
+        }
     }
 }

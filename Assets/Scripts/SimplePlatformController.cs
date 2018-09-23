@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SimplePlatformController : MonoBehaviour
 {
-
+    // Blickrichtung des Spielers
     [HideInInspector] public bool facingRight = true;
+
+    // Kann der Spieler Doppelsprung oder Stampfangriff ausführen
     [HideInInspector] public bool canDoubleJump;
     [HideInInspector] public bool isStomping;
 
+    // Hat der Spieler die Fähigkeit für den Doppelsprung bzw. den Stampfangriff
     public bool abilityDoubleJump = true;
     public bool abilityStomp = true;
 
@@ -49,17 +53,24 @@ public class SimplePlatformController : MonoBehaviour
     //Combatmanager
     public CombatManager combatManager;
 
+    //Spielerhitbox
     public GameObject playerHitbox;
 
     //Spieler
     public PlayerValues player;
 
+    //Text der HP-Anzeige
     public Text hpText;
 
+    // True, wenn eine TextBox angezeigt wird, sonst false
+    private bool activeTextBox = false;
+
+    //Unverwundbarkeit nach dem Berühren von Spikes
     private int invincibility = 0;
 
     private int attackTime = 0;
 
+    //initialization
     private void Start() {
         collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
 
@@ -68,6 +79,7 @@ public class SimplePlatformController : MonoBehaviour
         hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
     }
 
+    // Gibt den Skill mit der übergebenen ID zurück
     public void getSkill(int skillId) {
         switch(skillId) {
             case 0:
@@ -95,15 +107,13 @@ public class SimplePlatformController : MonoBehaviour
         }
     }
 
+    // Spieler trifft auf den übergebenen Gegner
     public void metEnemy(EnemyBase enemy, int priority) {
 
         //TODO Erstschlag einbauen
         if (priority == 1) {
             print("Spieler hat Erstschlag!");
         }
-
-        //Gegner wurde berührt
-        combatManager.setInCombat();
 
         collisionBox.setHSpeed(0f);
         collisionBox.setVSpeed(0f);
@@ -112,27 +122,30 @@ public class SimplePlatformController : MonoBehaviour
         combatManager.startCombat(enemy, enemy.gameObject, priority);
     }
 
+    //Setzt, ob der Spieler im Kampf ist
     public void setInCombat()
     {
         inCombat = !inCombat;
     }
 
+    public void textBoxTriggered()
+    {
+        setActiveTextBox();
+
+        collisionBox.setHSpeed(0f);
+    }
+
+    public void setActiveTextBox()
+    {
+        activeTextBox = !activeTextBox;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(player.getHP());
-        if (player.getHP() <= 0)
-        {
-            Vector3 playerSpawnPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
-            GameObject.FindGameObjectWithTag("Player").transform.position = playerSpawnPosition;
-            player.changeHP(player.getFullHP());
-            //TODO play death animation & after respawn: platforms etc are not shown, but player is in correct position
-            if (inCombat)
-            {
-                inCombat = !inCombat;
-                combatManager.playerLost();
-            }
+
+        if (player.getHP() <= 0 && !combatManager.inCombat) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         invincibility = Mathf.Max(0, invincibility - 1);
@@ -151,7 +164,7 @@ public class SimplePlatformController : MonoBehaviour
             }
         }
 
-        if (!combatManager.getInCombat()) {
+        if (!combatManager.getInCombat() && !activeTextBox) {
             //Spieler wird bewegt
             collisionBox.movement();
 
@@ -214,7 +227,7 @@ public class SimplePlatformController : MonoBehaviour
                 anim.SetTrigger("Jumping");
             }
 
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && !activeTextBox)
             {
                 if (grounded)
                 {
@@ -249,6 +262,7 @@ public class SimplePlatformController : MonoBehaviour
         }        
     }
 
+    // Prüft, ob die Animation gedreht werden muss
     private void checkFlip(float direction) {
         if (direction > 0 && !facingRight) {
             Flip();
@@ -264,7 +278,7 @@ public class SimplePlatformController : MonoBehaviour
 
         bool fixedGrounded = collisionBox.isGrounded();
 
-        if (!inCombat) {
+        if (!inCombat && !activeTextBox) {
             if (fixedGrounded)
             {
                 if (attackTime > 0) {

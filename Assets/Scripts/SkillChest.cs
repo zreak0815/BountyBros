@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ Klasse für die Belohnungskist am Ende eines Levels
+     */
 public class SkillChest : MonoBehaviour {
 
     public int skillId = 0;

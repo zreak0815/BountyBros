@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+/*
+ Klasse für das Beenden eines Levels
+     */
 public class LevelExit : MonoBehaviour {
 
     public string nextLevelName;

@@ -13,8 +13,10 @@ public class PlayerValues : MonoBehaviour {
    public int playerLevel = 1;
    public int currentXP = 0;
 
+    // EP pro Level
    public int[] XP_PER_LEVEL = { 100, 110, 120, 130 };
 
+    // HP Regeneration bei einem Heiltrank
    public const int HP_POTION_REGEN = 15;
 
    // Prozentwerte für Ausweichen und zusätzliche Verteidigung
@@ -32,6 +34,7 @@ public class PlayerValues : MonoBehaviour {
 
    public float escapeChance = 0.3f;
 
+    // Anzahl der Heiltränke des Spielers
    public int hpFlaskAmount = 0;
 
    // Schadenswerte für Angriffe
@@ -71,7 +74,7 @@ public class PlayerValues : MonoBehaviour {
    public int cooldownStompAttack = 5;
    GameObject CharSheet;
 
-
+   public int[] attacksCooldown = { 0, 0, 0, 0 };
    Button Atk;
    Button Def;
    Button Fcs;
@@ -124,6 +127,7 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
+    // Benutzt einen Heiltrank
    public void useHPPotion() {
       HP += HP_POTION_REGEN;
       if (HP > fullHP) {
@@ -132,44 +136,41 @@ public class PlayerValues : MonoBehaviour {
       hpFlaskAmount--;
    }
 
+    // Verändert die Anzahl der Heiltränke
    public void changeHPFlaskAmount(int amount) {
       hpFlaskAmount += amount;
    }
 
+    // Gibt die Anzahl der Heiltränke des Spielers zurück
    public int getHPFlaskAmount() {
       return hpFlaskAmount;
+
    }
 
-   public int getCooldownFromAttack(int attackSkillIndex) {
-      switch (attackSkillIndex) {
-         case 1:
-            return cooldownLightAttack;
-         case 2:
-            return cooldownHeavyAttack;
-         case 3:
-            return cooldownPreciseShot;
-         case 4:
-            return cooldownStompAttack;
-         default:
-            // wird nie eintreten
-            return -1;
-      }
-   }
+    public void reduceCooldowns() {
+        for (int i = 0; i < attacksCooldown.Length; i++) {
+            attacksCooldown[i] = Mathf.Max(0, attacksCooldown[i] - 1);
+        }
+    }
 
-   public void setCooldownFromAttack(int attackSkillIndex, int value) {
+    public int getCooldownFromAttack(int attackSkillIndex) {
+        return attacksCooldown[attackSkillIndex - 1];
+    }
+
+   public void setCooldownFromAttack(int attackSkillIndex) {
       switch (attackSkillIndex) {
          case 1:
             // lightAttack besitzt keinen cooldown
             break;
          case 2:
-            cooldownHeavyAttack = value;
+                attacksCooldown[attackSkillIndex - 1] = cooldownHeavyAttack;
             break;
          case 3:
-            cooldownPreciseShot = value;
-            break;
+                attacksCooldown[attackSkillIndex - 1] = cooldownPreciseShot;
+                break;
          case 4:
-            cooldownStompAttack = value;
-            break;
+                attacksCooldown[attackSkillIndex - 1] = cooldownStompAttack;
+                break;
       }
    }
 
@@ -190,16 +191,20 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
-   // Verändert die HP um den übergebenen Wert
-   public void changeHP(int amount) {
-      HP += amount;
-   }
+    // Verändert die HP um den übergebenen Wert
+    public void changeHP(int amount) {
+        HP += amount;
+        if (HP < 0) {
+            HP = 0;
+        }
+    }
 
-   // Gibt die HP zurück
-   public int getHP() {
+    // Gibt die HP zurück
+    public int getHP() {
       return HP;
    }
 
+    // Gibt die maximale HP des Spielers zurück
    public int getFullHP() {
       return fullHP;
    }
@@ -209,6 +214,7 @@ public class PlayerValues : MonoBehaviour {
       playerLevel++;
    }
 
+    // Verändert die Spieler-EP um den entsprechenden Wert
    public void changeXP(int amount) {
       currentXP += amount;
       if (currentXP >= XP_PER_LEVEL[playerLevel - 1]) {
@@ -218,10 +224,12 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
+    // Gibt die EP zurück
    public int getXP() {
       return currentXP;
    }
 
+    // Gibt die EP für das übergebene Level zurück
    public int getXPForLevel(int level) {
       return XP_PER_LEVEL[level < XP_PER_LEVEL.Length ? level - 1 : XP_PER_LEVEL.Length - 1];
    }
@@ -231,15 +239,18 @@ public class PlayerValues : MonoBehaviour {
       return playerLevel;
    }
 
+    // Gibt die Verteidigung des Spielers zurück
    public int getDefense() {
       return defense;
    }
 
 
+    //Gibt den Ausweichwert des Spielers zurück
    public float getEvasion() {
       return evasion;
    }
 
+    // Gibt die Wahrscheinlichkeit um aus dem Kampf zu entkommen zurück
    public float getEscapeChance() {
       return escapeChance;//Level in Charsheet
    }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Script für den beweglichen Hintergrund in Level 1 */
+
 public class backGroundScroller : MonoBehaviour
 {
 

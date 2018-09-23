@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ Abstrakte Klasse für den Kampf
+     */
 public abstract class CombatBase : MonoBehaviour {
 
     protected CombatManager combatManager;
@@ -20,6 +23,7 @@ public abstract class CombatBase : MonoBehaviour {
     }
 
     public void setTarget( bool isPlayer) {
+        combatManager = FindObjectOfType<CombatManager>();
         if (isPlayer) {
             target = combatManager.enemyCombat;
         } else {
@@ -28,4 +32,8 @@ public abstract class CombatBase : MonoBehaviour {
     }
 
     public abstract void performAttackAnimation(int id);
+
+    public abstract void playHurtAnimation();
+
+    public abstract void playDefeatAnimation();
 }

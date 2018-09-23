@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ Klasse für zerstörbare Objekte
+ */
 public class HittableItem : MonoBehaviour {
 
     public int itemNumber;
@@ -30,6 +34,7 @@ public class HittableItem : MonoBehaviour {
                 playerValues.changeHPFlaskAmount(amount);
                 print(amount.ToString() + " Items collected!");
                 collected = true;
+                Destroy(hurtbox.gameObject);
             }
         }
     }
