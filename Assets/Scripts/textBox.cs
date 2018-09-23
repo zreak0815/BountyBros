@@ -24,9 +24,7 @@ public class textBox : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!opened)
-        {
-           print("test");
-            
+        {            
             if (Mathf.Abs(hero.transform.position.x - transform.position.x) < activationRange &&
                 Mathf.Abs(hero.transform.position.y - transform.position.y) < activationRange)
             {
