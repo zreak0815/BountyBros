@@ -1115,10 +1115,10 @@ RectTransform:
   m_Father: {fileID: 1572051399}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -472.9, y: 296}
-  m_SizeDelta: {x: 256.03, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -30}
+  m_SizeDelta: {x: 1291.03, y: 608}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54538415
 MonoBehaviour:
@@ -2504,7 +2504,7 @@ GameObject:
   - component: {fileID: 175179058}
   - component: {fileID: 175179059}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2517,7 +2517,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 175179057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 66.11, y: -8.33, z: 2.6875}
+  m_LocalPosition: {x: 46.29, y: -15.13, z: 2.6875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1452774103}
@@ -2536,10 +2536,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   can: {fileID: 1973657979}
   textObj: {fileID: 1416894771}
-  activationRange: 1
+  activationRange: 2
   text:
-  - StoryBoxTest_01
-  - StoryBoxTest_02
+  - Hey, Kleiner! Bist ja schon weit gekommen. Kannst du dich noch bewegen?
+  - "Falls du's vergessen hast, daf\xFCr brauchst du die Tasten 'a' und 'd' und um
+    zu springen nat\xFCrlich die 'Leertaste'."
+  - Versuchs mal! Bin gespannt wie weit mein kleiner Bruder damit kommt.
 --- !u!1 &179140786
 GameObject:
   m_ObjectHideFlags: 0
@@ -7069,7 +7071,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 1.405, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 77
+  m_RootOrder: 78
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &608235884
 GameObject:
@@ -9917,7 +9919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillId: 0
-  activationRange: 2
+  activationRange: 1
 --- !u!23 &782978630
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10667,6 +10669,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 55
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!1 &860526350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 860526351}
+  - component: {fileID: 860526352}
+  m_Layer: 0
+  m_Name: 05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &860526351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 860526350}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 121.07, y: 15.79, z: 2.6875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1452774103}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &860526352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 860526350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f2a4e910a86c34196b48c8b4bdc9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  can: {fileID: 1973657979}
+  textObj: {fileID: 1416894771}
+  activationRange: 2
+  text:
+  - Kisten lassen sich schieben. Praktisch, wenn man nicht so hoch springen kann.
 --- !u!1 &860807917
 GameObject:
   m_ObjectHideFlags: 0
@@ -11236,7 +11283,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 1.405, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 74
+  m_RootOrder: 75
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &895408642
 GameObject:
@@ -11636,7 +11683,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 1.405, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 79
+  m_RootOrder: 80
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &929172626
 GameObject:
@@ -11786,6 +11833,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 83
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &961913033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 961913034}
+  - component: {fileID: 961913035}
+  m_Layer: 0
+  m_Name: 06
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &961913034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 961913033}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 153.91, y: 31.6, z: 2.6875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1452774103}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961913035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 961913033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f2a4e910a86c34196b48c8b4bdc9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  can: {fileID: 1973657979}
+  textObj: {fileID: 1416894771}
+  activationRange: 2
+  text:
+  - "Wow, h\xE4tte nich gedacht, dass du es bis hier her schaffst!"
+  - Deine Belohnung? Achja, in der Kiste! Ein neues paar Schuhe!
+  - Warum fragst du? Naja, deine alten Latschen haben schon bessere Tage gesehen.
+  - "Au\xDFerdem erm\xF6glichen dir diese hier einen Doppelsprung!"
+  - "Du kannst, wenn du dich in der Luft befindest noch einmal Springen, bevor du
+    den Boden erneut ber\xFChrst."
+  - "H\xF6her gelegene Orte erfordern also keine Kistengeschubse mehr!"
 --- !u!1 &1001968311
 GameObject:
   m_ObjectHideFlags: 0
@@ -12891,7 +12989,7 @@ Transform:
   m_LocalScale: {x: 0.85531497, y: 0.83475, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 69
+  m_RootOrder: 70
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &1154798348
 GameObject:
@@ -13391,7 +13489,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 0.99052495, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 75
+  m_RootOrder: 76
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1180579690
 GameObject:
@@ -14681,7 +14779,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 1.405, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 76
+  m_RootOrder: 77
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1304174211
 GameObject:
@@ -15952,8 +16050,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 283, y: 179}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 285.16, y: 181.16}
+  m_SizeDelta: {x: 272.9, y: 64.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1423730935
 GameObject:
@@ -16605,8 +16703,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 175179058}
+  - {fileID: 1792640345}
+  - {fileID: 1724781093}
+  - {fileID: 1697150024}
+  - {fileID: 860526351}
+  - {fileID: 961913034}
   m_Father: {fileID: 0}
-  m_RootOrder: 81
+  m_RootOrder: 82
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1477205761
 GameObject:
@@ -18746,7 +18849,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 1.405, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 72
+  m_RootOrder: 73
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1624062855
 GameObject:
@@ -18821,7 +18924,7 @@ Transform:
   m_LocalScale: {x: 0.26929244, y: 1.018748, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 82
+  m_RootOrder: 69
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1627242553
 GameObject:
@@ -19267,6 +19370,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1697150023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1697150024}
+  - component: {fileID: 1697150025}
+  m_Layer: 0
+  m_Name: 04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1697150024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1697150023}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 144.99, y: 5.67, z: 2.6875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1452774103}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1697150025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1697150023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f2a4e910a86c34196b48c8b4bdc9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  can: {fileID: 1973657979}
+  textObj: {fileID: 1416894771}
+  activationRange: 2
+  text:
+  - "Schau! Dort oben liegt ein Trank! Der k\xF6nnte in K\xE4mpfen vielleicht n\xFCtzlich
+    werden!"
 --- !u!1 &1717095496
 GameObject:
   m_ObjectHideFlags: 0
@@ -19429,6 +19578,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7927d164cb2de4d9d176014240b2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1724781092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1724781093}
+  - component: {fileID: 1724781094}
+  m_Layer: 0
+  m_Name: 03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1724781093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724781092}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 95.07, y: -2.47, z: 2.6875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1452774103}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1724781094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724781092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f2a4e910a86c34196b48c8b4bdc9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  can: {fileID: 1973657979}
+  textObj: {fileID: 1416894771}
+  activationRange: 2
+  text:
+  - "Schleim und Flederm\xE4use? Die d\xFCrfen wohl auf so einer Reise nicht fehlen..."
+  - Mal sehen wie du mit denen fertig wirst. Kommst du ihnen zu nahe, werden sie dich
+    angreifen!
 --- !u!1 &1738756861
 GameObject:
   m_ObjectHideFlags: 0
@@ -19461,8 +19657,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 111, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -0.000022888, y: 0}
+  m_SizeDelta: {x: 136.4, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1738756863
 MonoBehaviour:
@@ -20002,7 +20198,7 @@ Transform:
   m_LocalScale: {x: 0.85531497, y: 0.83475, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 70
+  m_RootOrder: 71
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &1766639563
 GameObject:
@@ -20237,6 +20433,53 @@ MonoBehaviour:
   cooldownPreciseShot: 3
   cooldownStompAttack: 5
   attacksCooldown: 00000000000000000000000000000000
+--- !u!1 &1792640344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1792640345}
+  - component: {fileID: 1792640346}
+  m_Layer: 0
+  m_Name: 02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1792640345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1792640344}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 79.54, y: -6.88, z: 2.6875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1452774103}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1792640346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1792640344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f2a4e910a86c34196b48c8b4bdc9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  can: {fileID: 1973657979}
+  textObj: {fileID: 1416894771}
+  activationRange: 2
+  text:
+  - "Oh eine br\xF6ckelige Wand? Davon l\xE4sst du dich doch wohl nicht aufhalten!"
+  - "Dr\xFCcke 'e' um mit deinem Schwert anzugreifen! Zeig der Wand was ich dir beigebracht
+    habe!"
 --- !u!1 &1796703693
 GameObject:
   m_ObjectHideFlags: 0
@@ -21388,10 +21631,10 @@ RectTransform:
   m_Father: {fileID: 1572051399}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -296.4, y: 296}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 274.55, y: -30}
+  m_SizeDelta: {x: 1139.23, y: 608}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901931408
 MonoBehaviour:
@@ -21629,7 +21872,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 1.405, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 78
+  m_RootOrder: 79
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1917576309
 GameObject:
@@ -21735,7 +21978,7 @@ Transform:
   m_LocalScale: {x: 1.321, y: 1.405, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 73
+  m_RootOrder: 74
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1932821693
 GameObject:
@@ -22003,8 +22246,9 @@ RectTransform:
   - {fileID: 2012838453}
   - {fileID: 487737955}
   - {fileID: 1416894773}
+  - {fileID: 2022311167}
   m_Father: {fileID: 0}
-  m_RootOrder: 80
+  m_RootOrder: 81
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -22169,7 +22413,7 @@ Transform:
   m_LocalScale: {x: 0.85531497, y: 0.83475, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 71
+  m_RootOrder: 72
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &1981020141
 GameObject:
@@ -22378,8 +22622,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 111, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -0.000019073, y: -15}
+  m_SizeDelta: {x: 106.8, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1987972922
 MonoBehaviour:
@@ -23028,6 +23272,81 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2012838452}
+  m_CullTransparentMesh: 0
+--- !u!1 &2022311166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2022311167}
+  - component: {fileID: 2022311169}
+  - component: {fileID: 2022311168}
+  m_Layer: 5
+  m_Name: exitText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2022311167
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2022311166}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1973657976}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 408.8, y: 143}
+  m_SizeDelta: {x: 112.95, y: 23.28}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2022311168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2022311166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 10
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "schlie\xDFen mit 'e'"
+--- !u!222 &2022311169
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2022311166}
   m_CullTransparentMesh: 0
 --- !u!1 &2040090581
 GameObject:
