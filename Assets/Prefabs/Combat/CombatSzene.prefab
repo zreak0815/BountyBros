@@ -834,6 +834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   battleCamera: {fileID: 1112382785913634}
+  gameText: {fileID: 1396067423997692, guid: 3f28a4fee8d8b1a4c9cd27a333ef170b, type: 2}
   playerPodium: {fileID: 1619167985190108}
   monsterPodium: {fileID: 1694848554270620}
   player: {fileID: 0}

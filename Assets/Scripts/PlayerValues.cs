@@ -17,7 +17,7 @@ public class PlayerValues : MonoBehaviour {
    public int[] XP_PER_LEVEL = { 100, 110, 120, 130 };
 
     // HP Regeneration bei einem Heiltrank
-   public const int HP_POTION_REGEN = 15;
+   private const int HP_POTION_REGEN = 30;
 
    // Prozentwerte für Ausweichen und zusätzliche Verteidigung
    private int prv_defense = 2;
@@ -32,7 +32,7 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
-   public float escapeChance = 0.3f;
+   public float escapeChance = 0.5f;
 
     // Anzahl der Heiltränke des Spielers
    public int hpFlaskAmount = 0;
@@ -69,7 +69,7 @@ public class PlayerValues : MonoBehaviour {
    private const int INITIAL_COOLDOWN_STOMPATTACK = 0;
 
    public int cooldownLightAttack = 0;
-   public int cooldownHeavyAttack = 3;
+   public int cooldownHeavyAttack = 4;
    public int cooldownPreciseShot = 3;
    public int cooldownStompAttack = 5;
    GameObject CharSheet;
@@ -80,10 +80,20 @@ public class PlayerValues : MonoBehaviour {
    Button Fcs;
    Button Evs;
 
+    private GlobalStats globalStats;
 
    // Use this for initialization
    void Start() {
-      CharSheet = GameObject.Find("CharacterSheet");
+
+        globalStats = FindObjectOfType<GlobalStats>();
+        if (globalStats == null) {
+            globalStats = new GameObject().AddComponent<GlobalStats>();
+        }
+        else {
+            globalStats.loadStats(this);
+        }
+
+        CharSheet = GameObject.Find("CharacterSheet");
       Atk = GameObject.Find("AddAtack").GetComponent<Button>();
       Atk.onClick.AddListener(AddAtk);
       Def = GameObject.Find("AddDef").GetComponent<Button>();
@@ -92,6 +102,8 @@ public class PlayerValues : MonoBehaviour {
       Fcs.onClick.AddListener(AddFcs);
       Evs = GameObject.Find("AddEvasion").GetComponent<Button>();
       Evs.onClick.AddListener(AddEvs);
+
+        
    }
 
    void AddAtk() {
@@ -126,6 +138,10 @@ public class PlayerValues : MonoBehaviour {
          Cursor.visible = !lcl_CharSheetVisible;
       }
    }
+
+    public int getHPPotionRegen() {
+        return HP_POTION_REGEN;
+    }
 
     // Benutzt einen Heiltrank
    public void useHPPotion() {
@@ -214,8 +230,13 @@ public class PlayerValues : MonoBehaviour {
       playerLevel++;
    }
 
+    // Erhöht das Level um 1
+    public void setLevel(int level) {
+        playerLevel = level;
+    }
+
     // Verändert die Spieler-EP um den entsprechenden Wert
-   public void changeXP(int amount) {
+    public void changeXP(int amount) {
       currentXP += amount;
       if (currentXP >= XP_PER_LEVEL[playerLevel - 1]) {
          currentXP -= XP_PER_LEVEL[playerLevel - 1];
@@ -254,4 +275,8 @@ public class PlayerValues : MonoBehaviour {
    public float getEscapeChance() {
       return escapeChance;//Level in Charsheet
    }
+
+    public void saveStats() {
+        globalStats.saveStats(this);
+    }
 }

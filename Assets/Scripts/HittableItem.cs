@@ -16,7 +16,8 @@ public class HittableItem : MonoBehaviour {
 
     public Collider2D hurtbox;
     private PlayerValues playerValues;
-
+    private float pickupDistance = 1;
+    
     void Start()
     {
         playerValues = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerValues>();
@@ -25,17 +26,14 @@ public class HittableItem : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (!collected) {
-            ContactFilter2D filter = new ContactFilter2D();
-            filter.SetLayerMask(1 << LayerMask.NameToLayer("PlayerHitbox"));
-            Collider2D[] results = new Collider2D[1];
-            hurtbox.OverlapCollider(filter, results);
-            if (results[0] != null) {
+            if (Vector2.Distance(transform.position, playerValues.transform.position) <= pickupDistance) {
                 int amount = Random.Range(minAmount, maxAmount + 1);
                 playerValues.changeHPFlaskAmount(amount);
                 print(amount.ToString() + " Items collected!");
                 collected = true;
+                FindObjectOfType<CombatManager>().showText(transform.position, "+" + amount + " Heiltränke!", Color.green);
                 Destroy(hurtbox.gameObject);
-            }
+            } 
         }
     }
 }

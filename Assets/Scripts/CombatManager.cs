@@ -14,6 +14,8 @@ public class CombatManager : MonoBehaviour {
     public GameObject playerCamera;
     public GameObject battleCamera;
 
+    public GameObject gameText;
+
     //Kampfpositionen
     public GameObject playerPodium;
     public GameObject monsterPodium;
@@ -85,6 +87,12 @@ public class CombatManager : MonoBehaviour {
     private int savedDamage = 0;
     private bool savedEvade = false;
     private bool canAttack = true;
+
+    public void showText(Vector3 position, string text, Color color) {
+        GameObject newText = Instantiate(gameText, position, new Quaternion());
+        newText.GetComponent<TextMesh>().text = text;
+        newText.GetComponent<TextMesh>().color = color;
+    }
 
     //Enum für mögliche Aktionen
     public enum BattleMenu
@@ -198,10 +206,12 @@ public class CombatManager : MonoBehaviour {
                     switch(currentSelection)
                     { // use item
                         case 1:
-                            if (player.getHPFlaskAmount() > 0) {
+                            if (canAttack && player.getHPFlaskAmount() > 0) {
                                 player.useHPPotion();
+                                showText(playerCombat.transform.position, player.getHPPotionRegen().ToString(), Color.green);
                                 hpPotion.text = "> " + player.getHPFlaskAmount() + "x Heiltrank";
                                 playerHPText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
+                                endTurn();
                             }
                             break;
                     }
@@ -384,6 +394,14 @@ public class CombatManager : MonoBehaviour {
     // Fügt entsprechenden Schaden zu
     public void dealDamage() {
         if (savedEvade) {
+
+            if (isPlayersTurn) {
+                showText(enemyCombat.transform.position, "Dodge!", Color.white);
+            }
+            else {
+                showText(playerCombat.transform.position, "Dodge!", Color.white);
+            }
+
             Debug.Log((isPlayersTurn ? "Enemy" : "Player") + " evaded!");
         }
         else {
@@ -391,6 +409,7 @@ public class CombatManager : MonoBehaviour {
                 enemyBase.changeHP(-savedDamage);
                 enemyHPText.text = "HP " + enemyBase.getHP() + "/" + enemyBase.getFullHP();
                 enemyCombat.playHurtAnimation();
+                showText(enemyCombat.transform.position, savedDamage.ToString(), Color.red);
 
                 if (enemyBase.getHP() <= 0) {
                     enemyCombat.playDefeatAnimation();
@@ -400,6 +419,7 @@ public class CombatManager : MonoBehaviour {
                 player.changeHP(-savedDamage);
                 playerHPText.text = "HP " + player.getHP() + "/" + player.getFullHP();
                 playerCombat.playHurtAnimation();
+                showText(playerCombat.transform.position, savedDamage.ToString(), Color.red);
 
                 if (player.getHP() <= 0) {
                     playerCombat.playDefeatAnimation();
@@ -438,12 +458,14 @@ public class CombatManager : MonoBehaviour {
             float escape = Random.Range(0.0f, 1.0f);
             Debug.Log(escape);
             if (player.getEscapeChance() < escape) {
+                showText(playerCombat.transform.position, "Fehlgeschlagen!", Color.white);
                 Debug.Log("Failed to escape!");
                 endTurn();
             }
             else {
                 HPPanel.SetActive(true);
                 Debug.Log("Escape successful!");
+                Destroy(enemyCombat.gameObject);
                 playerCamera.SetActive(true);
                 battleCamera.SetActive(false);
                 setInCombat(false);
@@ -474,7 +496,7 @@ public class CombatManager : MonoBehaviour {
             enemyBase = enemyType;
             canAttack = true;
 
-            if (priority >= 0) {
+            if (priority > 0) {
                 isPlayersTurn = true;
             }
             else {
