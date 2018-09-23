@@ -1806,6 +1806,7 @@ GameObject:
   - component: {fileID: 98143312}
   - component: {fileID: 98143311}
   - component: {fileID: 98143313}
+  - component: {fileID: 98143314}
   m_Layer: 5
   m_Name: CharacterSheet
   m_TagString: Untagged
@@ -1874,9 +1875,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 98143309}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89d35c9bb20ab6d4fa6c88248cd146cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 22cc433944b48b244b9b445df9c22a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &98143314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 98143309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ab20da35cbe2949bbf007f9fcaf06f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  fullHP: 100
+  playerLevel: 1
+  currentXP: 0
+  XP_PER_LEVEL: 640000006e0000007800000082000000
+  evasion: 0.1
+  escapeChance: 0.3
+  hpFlaskAmount: 0
+  cooldownLightAttack: 0
+  cooldownHeavyAttack: 3
+  cooldownPreciseShot: 3
+  cooldownStompAttack: 5
 --- !u!1 &111851236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,8 +2394,9 @@ GameObject:
   - component: {fileID: 174919233}
   - component: {fileID: 174919232}
   - component: {fileID: 174919231}
+  - component: {fileID: 174919234}
   m_Layer: 5
-  m_Name: Add
+  m_Name: AddDef
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2471,6 +2496,29 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 174919229}
   m_CullTransparentMesh: 0
+--- !u!114 &174919234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 174919229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ab20da35cbe2949bbf007f9fcaf06f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  fullHP: 100
+  playerLevel: 1
+  currentXP: 0
+  XP_PER_LEVEL: 640000006e0000007800000082000000
+  evasion: 0.1
+  escapeChance: 0.3
+  hpFlaskAmount: 0
+  cooldownLightAttack: 0
+  cooldownHeavyAttack: 3
+  cooldownPreciseShot: 3
+  cooldownStompAttack: 5
 --- !u!1 &179140786
 GameObject:
   m_ObjectHideFlags: 0
@@ -4549,8 +4597,9 @@ GameObject:
   - component: {fileID: 330111324}
   - component: {fileID: 330111323}
   - component: {fileID: 330111322}
+  - component: {fileID: 330111325}
   m_Layer: 5
-  m_Name: Add
+  m_Name: AddEvasion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4650,6 +4699,29 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 330111320}
   m_CullTransparentMesh: 0
+--- !u!114 &330111325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 330111320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ab20da35cbe2949bbf007f9fcaf06f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  fullHP: 100
+  playerLevel: 1
+  currentXP: 0
+  XP_PER_LEVEL: 640000006e0000007800000082000000
+  evasion: 0.1
+  escapeChance: 0.3
+  hpFlaskAmount: 0
+  cooldownLightAttack: 0
+  cooldownHeavyAttack: 3
+  cooldownPreciseShot: 3
+  cooldownStompAttack: 5
 --- !u!1 &336216195
 GameObject:
   m_ObjectHideFlags: 0
@@ -4661,7 +4733,7 @@ GameObject:
   - component: {fileID: 336216198}
   - component: {fileID: 336216197}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TextDef
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4738,8 +4810,9 @@ GameObject:
   - component: {fileID: 348506801}
   - component: {fileID: 348506800}
   - component: {fileID: 348506799}
+  - component: {fileID: 348506802}
   m_Layer: 5
-  m_Name: Add
+  m_Name: AddAtack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4802,7 +4875,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 348506800}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &348506800
@@ -4839,6 +4923,29 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 348506797}
   m_CullTransparentMesh: 0
+--- !u!114 &348506802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 348506797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ab20da35cbe2949bbf007f9fcaf06f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  fullHP: 100
+  playerLevel: 1
+  currentXP: 0
+  XP_PER_LEVEL: 640000006e0000007800000082000000
+  evasion: 0.1
+  escapeChance: 0.3
+  hpFlaskAmount: 0
+  cooldownLightAttack: 0
+  cooldownHeavyAttack: 3
+  cooldownPreciseShot: 3
+  cooldownStompAttack: 5
 --- !u!1 &354664950
 GameObject:
   m_ObjectHideFlags: 0
@@ -4948,7 +5055,7 @@ GameObject:
   - component: {fileID: 360475501}
   - component: {fileID: 360475500}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TextEvasion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7149,7 +7256,7 @@ GameObject:
   - component: {fileID: 608235887}
   - component: {fileID: 608235886}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TextFcs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12249,7 +12356,7 @@ MonoBehaviour:
     m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 1
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -12257,9 +12364,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Fokus
-
-'
+  m_Text: Leben
 --- !u!222 &929172630
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13219,14 +13324,9 @@ MonoBehaviour:
   playerLevel: 1
   currentXP: 0
   XP_PER_LEVEL: 640000006e0000007800000082000000
-  defense: 2
   evasion: 0
   escapeChance: 0.3
   hpFlaskAmount: 0
-  lightAttackDamage: 10
-  heavyAttackDamage: 20
-  preciseShotDamage: 15
-  stompAttackDamage: 10
   cooldownLightAttack: 0
   cooldownHeavyAttack: 3
   cooldownPreciseShot: 3
@@ -19037,7 +19137,6 @@ GameObject:
   - component: {fileID: 1572051397}
   - component: {fileID: 1572051396}
   - component: {fileID: 1572051400}
-  - component: {fileID: 1572051401}
   m_Layer: 5
   m_Name: JumpAndRunUI
   m_TagString: Untagged
@@ -19131,18 +19230,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1572051395}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 343bf335ddee1bc4b93ceb2a041052b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1572051401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1572051395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca9cac5b3e33117478d324b662c889db, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a8600e5206313e4997ca068d3e818b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1586512319
@@ -21302,8 +21390,9 @@ GameObject:
   - component: {fileID: 1779774500}
   - component: {fileID: 1779774499}
   - component: {fileID: 1779774498}
+  - component: {fileID: 1779774501}
   m_Layer: 5
-  m_Name: Add
+  m_Name: AddFocus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21403,6 +21492,29 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1779774496}
   m_CullTransparentMesh: 0
+--- !u!114 &1779774501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1779774496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ab20da35cbe2949bbf007f9fcaf06f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  fullHP: 100
+  playerLevel: 1
+  currentXP: 0
+  XP_PER_LEVEL: 640000006e0000007800000082000000
+  evasion: 0.1
+  escapeChance: 0.3
+  hpFlaskAmount: 0
+  cooldownLightAttack: 0
+  cooldownHeavyAttack: 3
+  cooldownPreciseShot: 3
+  cooldownStompAttack: 5
 --- !u!1 &1796703693
 GameObject:
   m_ObjectHideFlags: 0
@@ -21578,7 +21690,7 @@ GameObject:
   - component: {fileID: 1803867679}
   - component: {fileID: 1803867678}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TextAtk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

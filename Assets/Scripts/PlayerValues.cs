@@ -1,29 +1,64 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerValues : MonoBehaviour {
+   // Lebenspunkte
+   public int HP = 100;
+   private int prv_fullHP = 100;
+   public int fullHP {
+      get {
+         return prv_fullHP + (CharSheetController.Fcs * 10);
+      }
+   }
+   public int playerLevel = 1;
+   public int currentXP = 0;
 
-    // Lebenspunkte
-    public int HP = 100;
-    public int fullHP = 100;
-    public int playerLevel = 1;
-    public int currentXP = 0;
+   public int[] XP_PER_LEVEL = { 100, 110, 120, 130 };
 
-    public int[] XP_PER_LEVEL = {100, 110, 120, 130 };
-
-    public const int HP_POTION_REGEN = 15;
+   public const int HP_POTION_REGEN = 15;
 
    // Prozentwerte für Ausweichen und zusätzliche Verteidigung
-   public int defense = 2;
-   public float evasion = 0.1f;
+   private int prv_defense = 2;
+   public int defense {
+      get {
+         return prv_defense + Mathf.RoundToInt(prv_defense * CharSheetController.Def * (float) 0.2);
+      }
+   }
+   public float evasion {
+      get {
+         return 0.1f * Mathf.Sqrt(CharSheetController.Evs);
+      }
+   }
+
    public float escapeChance = 0.3f;
 
-    public int hpFlaskAmount = 0;
+   public int hpFlaskAmount = 0;
 
-    // Schadenswerte für Angriffe
-   public int lightAttackDamage = 10;
-   public int heavyAttackDamage = 20;
-   public int preciseShotDamage = 15;
-   public int stompAttackDamage = 10;
+   // Schadenswerte für Angriffe
+   private int prv_lightAttackDamage = 10;
+   public int lightAttackDamage {
+      get {
+         return prv_lightAttackDamage + Mathf.RoundToInt(prv_lightAttackDamage * CharSheetController.Atk * (float) 0.2);
+      }
+   }
+   private int prv_heavyAttackDamage = 20;
+   public int heavyAttackDamage {
+      get {
+         return prv_heavyAttackDamage + Mathf.RoundToInt(prv_heavyAttackDamage * CharSheetController.Atk * (float) 0.2);
+      }
+   }
+   private int prv_preciseShotDamage = 15;
+   public int preciseShotDamage {
+      get {
+         return prv_preciseShotDamage + Mathf.RoundToInt(prv_preciseShotDamage * CharSheetController.Atk * (float) 0.2);
+      }
+   }
+   private int prv_stompAttackDamage = 10;
+   public int stompAttackDamage {
+      get {
+         return prv_stompAttackDamage + Mathf.RoundToInt(prv_stompAttackDamage * CharSheetController.Atk * (float) 0.2);
+      }
+   }
 
    private const int INITIAL_COOLDOWN_LIGHTATTACK = 0;
    private const int INITIAL_COOLDOWN_HEAVYATTACK = 0;
@@ -34,36 +69,76 @@ public class PlayerValues : MonoBehaviour {
    public int cooldownHeavyAttack = 3;
    public int cooldownPreciseShot = 3;
    public int cooldownStompAttack = 5;
+   GameObject CharSheet;
+
+
+   Button Atk;
+   Button Def;
+   Button Fcs;
+   Button Evs;
+
 
    // Use this for initialization
    void Start() {
-
+      CharSheet = GameObject.Find("CharacterSheet");
+      Atk = GameObject.Find("AddAtack").GetComponent<Button>();
+      Atk.onClick.AddListener(AddAtk);
+      Def = GameObject.Find("AddDef").GetComponent<Button>();
+      Def.onClick.AddListener(AddDef);
+      Fcs = GameObject.Find("AddFocus").GetComponent<Button>();
+      Fcs.onClick.AddListener(AddFcs);
+      Evs = GameObject.Find("AddEvasion").GetComponent<Button>();
+      Evs.onClick.AddListener(AddEvs);
    }
+
+   void AddAtk() {
+      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Atack);
+   }
+
+   void AddDef() {
+      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Defense);
+   }
+
+   void AddFcs() {
+      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Focus);
+   }
+
+   void AddEvs() {
+      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Evasion);
+   }
+
+   private static bool firstStart = true;
 
    // Update is called once per frame
    void Update() {
-
+      //In der Start Methode wird bei SetActive(false) eine NullRef ausgelöst, deswegen hier erst initialisieren.
+      if (firstStart) {
+         firstStart = false;
+         Cursor.visible = false;
+         CharSheet.SetActive(false);
+      }
+      if (CharSheet != null && Input.GetKeyDown(KeyCode.C)) {
+         bool lcl_CharSheetVisible = CharSheet.activeSelf;
+         CharSheet.SetActive(!lcl_CharSheetVisible);
+         Cursor.visible = !lcl_CharSheetVisible;
+      }
    }
 
-    public void useHPPotion()
-    {
-        HP += HP_POTION_REGEN;
-        if (HP > fullHP)
-        {
-            HP = fullHP;
-        }
-        hpFlaskAmount--;
-    }
+   public void useHPPotion() {
+      HP += HP_POTION_REGEN;
+      if (HP > fullHP) {
+         HP = fullHP;
+      }
+      hpFlaskAmount--;
+   }
 
-    public void changeHPFlaskAmount(int amount)
-    {
-        hpFlaskAmount += amount;
-    }
+   public void changeHPFlaskAmount(int amount) {
+      hpFlaskAmount += amount;
+   }
 
-    public int getHPFlaskAmount()
-    {
-        return hpFlaskAmount;
-    }
+   public int getHPFlaskAmount() {
+      return hpFlaskAmount;
+   }
 
    public int getCooldownFromAttack(int attackSkillIndex) {
       switch (attackSkillIndex) {
@@ -134,55 +209,38 @@ public class PlayerValues : MonoBehaviour {
       playerLevel++;
    }
 
-    public void changeXP(int amount)
-    {
-        currentXP += amount;
-        if (currentXP >= XP_PER_LEVEL[playerLevel - 1])
-        {
-            currentXP -= XP_PER_LEVEL[playerLevel - 1];
-            playerLevel++;
-            //TODO statuspunkte verteilen im character sheet und werte dementsprechend veränderns
-        }
-    }
+   public void changeXP(int amount) {
+      currentXP += amount;
+      if (currentXP >= XP_PER_LEVEL[playerLevel - 1]) {
+         currentXP -= XP_PER_LEVEL[playerLevel - 1];
+         playerLevel++;
+         CharSheetController.IncrementByOne();
+      }
+   }
 
-    public int getXP()
-    {
-        return currentXP;
-    }
+   public int getXP() {
+      return currentXP;
+   }
 
-    public int getXPForLevel(int level)
-    {
-        return XP_PER_LEVEL[level - 1];
-    }
+   public int getXPForLevel(int level) {
+      return XP_PER_LEVEL[level < XP_PER_LEVEL.Length ? level - 1 : XP_PER_LEVEL.Length - 1];
+   }
 
    // Gbt das Spielerlevel zurück
    public int getLevel() {
       return playerLevel;
    }
 
-   // Verändert Verteidigung um den übergebenen Wert
-   public void changeDefense(int amount) {
-      defense += amount;
-   }
-
    public int getDefense() {
       return defense;
    }
 
-   public void changeEvasion(float amount) {
-      evasion += amount;
-   }
 
    public float getEvasion() {
       return evasion;
    }
 
-   public void changeEscapeChance(float amount) {
-      escapeChance += amount;
-   }
-
    public float getEscapeChance() {
-      return escapeChance;
+      return escapeChance;//Level in Charsheet
    }
-
 }
