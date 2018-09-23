@@ -164,7 +164,7 @@ public class SimplePlatformController : MonoBehaviour
             }
         }
 
-        if (!combatManager.getInCombat()) {
+        if (!combatManager.getInCombat() && !activeTextBox) {
             //Spieler wird bewegt
             collisionBox.movement();
 
@@ -227,7 +227,7 @@ public class SimplePlatformController : MonoBehaviour
                 anim.SetTrigger("Jumping");
             }
 
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && !activeTextBox)
             {
                 if (grounded)
                 {
