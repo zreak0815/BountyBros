@@ -24,6 +24,7 @@ public class LevelExit : MonoBehaviour {
 
         if (Mathf.Abs(hero.transform.position.x - transform.position.x) < exitRange &&
             Mathf.Abs(hero.transform.position.y - transform.position.y) < exitRange) {
+            hero.GetComponent<PlayerValues>().saveStats();
             SceneManager.LoadScene(nextLevelName);
         }
 	}

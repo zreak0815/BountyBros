@@ -70,6 +70,8 @@ public class SimplePlatformController : MonoBehaviour
 
     private int attackTime = 0;
 
+    private int combatTimeout = 0;
+
     //initialization
     private void Start() {
         collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
@@ -110,16 +112,20 @@ public class SimplePlatformController : MonoBehaviour
     // Spieler trifft auf den übergebenen Gegner
     public void metEnemy(EnemyBase enemy, int priority) {
 
-        //TODO Erstschlag einbauen
-        if (priority == 1) {
-            print("Spieler hat Erstschlag!");
+        if (combatTimeout == 0 || priority > 0) {
+            //TODO Erstschlag einbauen
+            if (priority == 1) {
+                print("Spieler hat Erstschlag!");
+            }
+
+            collisionBox.setHSpeed(0f);
+            collisionBox.setVSpeed(0f);
+
+            combatTimeout = 60;
+
+            combatManager.startCombat(enemy, enemy.gameObject, priority);
         }
-
-        collisionBox.setHSpeed(0f);
-        collisionBox.setVSpeed(0f);
-
-
-        combatManager.startCombat(enemy, enemy.gameObject, priority);
+        
     }
 
     //Setzt, ob der Spieler im Kampf ist
@@ -149,6 +155,9 @@ public class SimplePlatformController : MonoBehaviour
         }
 
         invincibility = Mathf.Max(0, invincibility - 1);
+        if (!combatManager.inCombat) {
+            combatTimeout = Mathf.Max(0, combatTimeout - 1);
+        }
 
         attackTime = Mathf.Max(0, attackTime - 1);
 
@@ -156,7 +165,7 @@ public class SimplePlatformController : MonoBehaviour
             Instantiate(playerHitbox, transform);
         }
 
-        if (Input.GetButtonDown("Attack")) {
+        if (Input.GetButtonDown("Attack") && !activeTextBox) {
             anim.SetTrigger("Attack");
             attackTime = 20;
             if (!grounded) {
@@ -164,7 +173,7 @@ public class SimplePlatformController : MonoBehaviour
             }
         }
 
-        if (!combatManager.getInCombat() && !activeTextBox) {
+        if (!combatManager.getInCombat()) {
             //Spieler wird bewegt
             collisionBox.movement();
 
@@ -181,6 +190,7 @@ public class SimplePlatformController : MonoBehaviour
                         player.changeHP(-SPIKE_DAMAGE);
                         hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
                         invincibility = 120;
+                        combatManager.showText(transform.position, SPIKE_DAMAGE.ToString(), Color.red);
                     }
                 }
 
@@ -212,7 +222,7 @@ public class SimplePlatformController : MonoBehaviour
                 canDoubleJump = true;
                 isStomping = false;
 
-                if (Input.GetAxis("Horizontal") != 0)
+                if (Input.GetAxis("Horizontal") != 0 && !activeTextBox)
                 {
                     anim.SetTrigger("Walking");
                 }
@@ -278,10 +288,10 @@ public class SimplePlatformController : MonoBehaviour
 
         bool fixedGrounded = collisionBox.isGrounded();
 
-        if (!inCombat && !activeTextBox) {
+        if (!inCombat) {
             if (fixedGrounded)
             {
-                if (attackTime > 0) {
+                if (attackTime > 0 || activeTextBox) {
                     h = 0;
                 }
 
