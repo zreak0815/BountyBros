@@ -82,6 +82,7 @@ public class SimplePlatformController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerValues>();
 
         hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
+
     }
 
     // Gibt den Skill mit der übergebenen ID zurück
@@ -90,10 +91,12 @@ public class SimplePlatformController : MonoBehaviour
             case 0:
                 abilityDoubleJump = true;
                 print("Skill Obtained: Double Jump!");
+                combatManager.showText(transform.position, "Skill: Double Jump!", Color.white);
                 break;
             case 1:
                 abilityStomp = true;
                 print("Skill Obtained: Stomp!");
+                combatManager.showText(transform.position, "Skill: Stomp!", Color.white);
                 break;
         }
     }

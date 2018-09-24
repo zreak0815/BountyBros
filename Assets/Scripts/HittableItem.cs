@@ -9,8 +9,6 @@ using UnityEngine;
 public class HittableItem : MonoBehaviour {
 
     public int itemNumber;
-    public int minAmount;
-    public int maxAmount;
 
     private bool collected = false;
 
@@ -27,7 +25,7 @@ public class HittableItem : MonoBehaviour {
     void Update () {
         if (!collected) {
             if (Vector2.Distance(transform.position, playerValues.transform.position) <= pickupDistance) {
-                int amount = Random.Range(minAmount, maxAmount + 1);
+                int amount = 2;
                 playerValues.changeHPFlaskAmount(amount);
                 print(amount.ToString() + " Items collected!");
                 collected = true;

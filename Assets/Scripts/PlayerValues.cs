@@ -242,6 +242,7 @@ public class PlayerValues : MonoBehaviour {
       if (currentXP >= XP_PER_LEVEL[playerLevel - 1]) {
          currentXP -= XP_PER_LEVEL[playerLevel - 1];
          playerLevel++;
+            FindObjectOfType<CombatManager>().showText(transform.position, "Level Up!", Color.white);
          CharSheetController.IncrementOnLevelUp();
       }
    }
