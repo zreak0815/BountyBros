@@ -74,6 +74,9 @@ public class SimplePlatformController : MonoBehaviour
 
     //initialization
     private void Start() {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 1;
+
         collisionBox.layerMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Objects");
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerValues>();
