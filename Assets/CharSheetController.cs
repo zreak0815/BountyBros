@@ -18,26 +18,19 @@ public class CharSheetController : MonoBehaviour {
       Evasion
    }
 
-   static Text StatPts;
-   static Text Atk_T;
-   static Text Def_T;
-   static Text HP_T;
-   static Text Evs_T;
-   static Text Lvl_T;
+   public Text StatPts;
+   public Text Atk_T;
+   public Text Def_T;
+   public Text HP_T;
+   public Text Evs_T;
+   public Text Lvl_T;
 
    // Use this for initialization
    private void Start() {
-      StatPts = GameObject.Find("Punkte").GetComponent<Text>();
       StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");
-      Atk_T = GameObject.Find("TextAtk").GetComponent<Text>();
-      Def_T = GameObject.Find("TextDef").GetComponent<Text>();
-      HP_T = GameObject.Find("TextFcs").GetComponent<Text>();
-      Evs_T = GameObject.Find("TextEvasion").GetComponent<Text>();
-      Lvl_T = GameObject.Find("LevelText").GetComponent<Text>();
-      HPPanelText = GameObject.Find("HPPanelText").GetComponent<Text>();
    }
 
-   public static void AddStatPoint(StatusPoints aType) {
+   public void AddStatPoint(StatusPoints aType) {
       Text StatPts = GameObject.Find("Punkte").GetComponent<Text>();
       if (StatPoints > 0) {
          switch (aType) {
@@ -73,7 +66,7 @@ public class CharSheetController : MonoBehaviour {
 
    }
 
-   public static void IncrementOnLevelUp() {
+   public void IncrementOnLevelUp() {
       StatPoints += 2;
       ++Lvl;
       StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");

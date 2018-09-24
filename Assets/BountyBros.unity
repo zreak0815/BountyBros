@@ -13360,8 +13360,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemNumber: 0
-  minAmount: 3
-  maxAmount: 5
   hurtbox: {fileID: 1166216133}
 --- !u!61 &1166216133
 BoxCollider2D:
@@ -18354,6 +18352,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779ba30e720a58b4ea0e84f78c51f993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StatPts: {fileID: 269636539}
+  Atk_T: {fileID: 2068590868}
+  Def_T: {fileID: 336216197}
+  HP_T: {fileID: 608235886}
+  Evs_T: {fileID: 360475500}
+  Lvl_T: {fileID: 707704752}
 --- !u!1 &1586512319
 GameObject:
   m_ObjectHideFlags: 0

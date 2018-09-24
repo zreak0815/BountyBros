@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GlobalStats : MonoBehaviour {
 
-    private int exp = 0;
-    private int level = 1;
-    private int potions = 0;
+    public int exp = 0;
+    public int level = 1;
+    public int potions = 0;
 
 	// Use this for initialization
 	void Start () {

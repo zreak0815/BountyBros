@@ -37,6 +37,8 @@ public class PlayerValues : MonoBehaviour {
    // Anzahl der Heiltränke des Spielers
    public int hpFlaskAmount = 0;
 
+   private CharSheetController charSheetController;
+
    // Schadenswerte für Angriffe
    private int prv_lightAttackDamage = 10;
    public int lightAttackDamage {
@@ -105,22 +107,24 @@ public class PlayerValues : MonoBehaviour {
          Evs.onClick.AddListener(AddEvs);
       }
 
+        charSheetController = FindObjectOfType<CharSheetController>();
+
    }
 
    void AddAtk() {
-      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Atack);
+      charSheetController.AddStatPoint(CharSheetController.StatusPoints.Atack);
    }
 
    void AddDef() {
-      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Defense);
+      charSheetController.AddStatPoint(CharSheetController.StatusPoints.Defense);
    }
 
    void AddHP() {
-      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Health);
+      charSheetController.AddStatPoint(CharSheetController.StatusPoints.Health);
    }
 
    void AddEvs() {
-      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Evasion);
+      charSheetController.AddStatPoint(CharSheetController.StatusPoints.Evasion);
    }
 
    private static bool firstStart = true;
@@ -243,7 +247,7 @@ public class PlayerValues : MonoBehaviour {
          currentXP -= XP_PER_LEVEL[playerLevel - 1];
          playerLevel++;
             FindObjectOfType<CombatManager>().showText(transform.position, "Level Up!", Color.white);
-         CharSheetController.IncrementOnLevelUp();
+         charSheetController.IncrementOnLevelUp();
       }
    }
 

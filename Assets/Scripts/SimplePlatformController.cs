@@ -156,6 +156,15 @@ public class SimplePlatformController : MonoBehaviour
     void Update()
     {
 
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            FindObjectOfType<PlayerValues>().changeXP(100);
+        }
+
+        if (Input.GetKeyDown(KeyCode.U)) {
+            FindObjectOfType<PlayerValues>().saveStats();
+            SceneManager.LoadScene("Level2");
+        }
+
         if (player.getHP() <= 0 && !combatManager.inCombat) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
