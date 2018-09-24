@@ -1880,7 +1880,6 @@ GameObject:
   - component: {fileID: 98143310}
   - component: {fileID: 98143312}
   - component: {fileID: 98143311}
-  - component: {fileID: 98143313}
   - component: {fileID: 98143314}
   m_Layer: 5
   m_Name: CharacterSheet
@@ -1905,8 +1904,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -346.5, y: 10.6}
-  m_SizeDelta: {x: 120, y: 138.7}
+  m_AnchoredPosition: {x: -346.5, y: 2.11}
+  m_SizeDelta: {x: 120, y: 155.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &98143311
 MonoBehaviour:
@@ -1942,17 +1941,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 98143309}
   m_CullTransparentMesh: 0
---- !u!114 &98143313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 98143309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22cc433944b48b244b9b445df9c22a0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &98143314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9021,6 +9009,81 @@ Transform:
   m_Father: {fileID: 1154798349}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &707704750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 707704751}
+  - component: {fileID: 707704753}
+  - component: {fileID: 707704752}
+  m_Layer: 5
+  m_Name: LevelText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &707704751
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 707704750}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1064548781}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 31.035, y: -130.4}
+  m_SizeDelta: {x: 62.07, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &707704752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 707704750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 10
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Level 3
+--- !u!222 &707704753
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 707704750}
+  m_CullTransparentMesh: 0
 --- !u!1 &713308319
 GameObject:
   m_ObjectHideFlags: 0
@@ -12673,12 +12736,13 @@ RectTransform:
   - {fileID: 768378239}
   - {fileID: 929172627}
   - {fileID: 1385293680}
+  - {fileID: 707704751}
   m_Father: {fileID: 98143310}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 60}
+  m_AnchoredPosition: {x: 0, y: 62.845}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1064548782
@@ -18431,7 +18495,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1572051395}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a8600e5206313e4997ca068d3e818b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 779ba30e720a58b4ea0e84f78c51f993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1586512319
