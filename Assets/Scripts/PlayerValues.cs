@@ -13,10 +13,10 @@ public class PlayerValues : MonoBehaviour {
    public int playerLevel = 1;
    public int currentXP = 0;
 
-    // EP pro Level
+   // EP pro Level
    public int[] XP_PER_LEVEL = { 100, 110, 120, 130 };
 
-    // HP Regeneration bei einem Heiltrank
+   // HP Regeneration bei einem Heiltrank
    private const int HP_POTION_REGEN = 30;
 
    // Prozentwerte für Ausweichen und zusätzliche Verteidigung
@@ -34,7 +34,7 @@ public class PlayerValues : MonoBehaviour {
 
    public float escapeChance = 0.5f;
 
-    // Anzahl der Heiltränke des Spielers
+   // Anzahl der Heiltränke des Spielers
    public int hpFlaskAmount = 0;
 
    // Schadenswerte für Angriffe
@@ -80,20 +80,19 @@ public class PlayerValues : MonoBehaviour {
    Button Fcs;
    Button Evs;
 
-    private GlobalStats globalStats;
+   private GlobalStats globalStats;
 
    // Use this for initialization
    void Start() {
 
-        globalStats = FindObjectOfType<GlobalStats>();
-        if (globalStats == null) {
-            globalStats = new GameObject().AddComponent<GlobalStats>();
-        }
-        else {
-            globalStats.loadStats(this);
-        }
+      globalStats = FindObjectOfType<GlobalStats>();
+      if (globalStats == null) {
+         globalStats = new GameObject().AddComponent<GlobalStats>();
+      } else {
+         globalStats.loadStats(this);
+      }
 
-        CharSheet = GameObject.Find("CharacterSheet");
+      CharSheet = GameObject.Find("CharacterSheet");
       Atk = GameObject.Find("AddAtack").GetComponent<Button>();
       Atk.onClick.AddListener(AddAtk);
       Def = GameObject.Find("AddDef").GetComponent<Button>();
@@ -103,7 +102,7 @@ public class PlayerValues : MonoBehaviour {
       Evs = GameObject.Find("AddEvasion").GetComponent<Button>();
       Evs.onClick.AddListener(AddEvs);
 
-        
+
    }
 
    void AddAtk() {
@@ -139,11 +138,11 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
-    public int getHPPotionRegen() {
-        return HP_POTION_REGEN;
-    }
+   public int getHPPotionRegen() {
+      return HP_POTION_REGEN;
+   }
 
-    // Benutzt einen Heiltrank
+   // Benutzt einen Heiltrank
    public void useHPPotion() {
       HP += HP_POTION_REGEN;
       if (HP > fullHP) {
@@ -152,26 +151,26 @@ public class PlayerValues : MonoBehaviour {
       hpFlaskAmount--;
    }
 
-    // Verändert die Anzahl der Heiltränke
+   // Verändert die Anzahl der Heiltränke
    public void changeHPFlaskAmount(int amount) {
       hpFlaskAmount += amount;
    }
 
-    // Gibt die Anzahl der Heiltränke des Spielers zurück
+   // Gibt die Anzahl der Heiltränke des Spielers zurück
    public int getHPFlaskAmount() {
       return hpFlaskAmount;
 
    }
 
-    public void reduceCooldowns() {
-        for (int i = 0; i < attacksCooldown.Length; i++) {
-            attacksCooldown[i] = Mathf.Max(0, attacksCooldown[i] - 1);
-        }
-    }
+   public void reduceCooldowns() {
+      for (int i = 0; i < attacksCooldown.Length; i++) {
+         attacksCooldown[i] = Mathf.Max(0, attacksCooldown[i] - 1);
+      }
+   }
 
-    public int getCooldownFromAttack(int attackSkillIndex) {
-        return attacksCooldown[attackSkillIndex - 1];
-    }
+   public int getCooldownFromAttack(int attackSkillIndex) {
+      return attacksCooldown[attackSkillIndex - 1];
+   }
 
    public void setCooldownFromAttack(int attackSkillIndex) {
       switch (attackSkillIndex) {
@@ -179,14 +178,14 @@ public class PlayerValues : MonoBehaviour {
             // lightAttack besitzt keinen cooldown
             break;
          case 2:
-                attacksCooldown[attackSkillIndex - 1] = cooldownHeavyAttack;
+            attacksCooldown[attackSkillIndex - 1] = cooldownHeavyAttack;
             break;
          case 3:
-                attacksCooldown[attackSkillIndex - 1] = cooldownPreciseShot;
-                break;
+            attacksCooldown[attackSkillIndex - 1] = cooldownPreciseShot;
+            break;
          case 4:
-                attacksCooldown[attackSkillIndex - 1] = cooldownStompAttack;
-                break;
+            attacksCooldown[attackSkillIndex - 1] = cooldownStompAttack;
+            break;
       }
    }
 
@@ -207,20 +206,20 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
-    // Verändert die HP um den übergebenen Wert
-    public void changeHP(int amount) {
-        HP += amount;
-        if (HP < 0) {
-            HP = 0;
-        }
-    }
+   // Verändert die HP um den übergebenen Wert
+   public void changeHP(int amount) {
+      HP += amount;
+      if (HP < 0) {
+         HP = 0;
+      }
+   }
 
-    // Gibt die HP zurück
-    public int getHP() {
+   // Gibt die HP zurück
+   public int getHP() {
       return HP;
    }
 
-    // Gibt die maximale HP des Spielers zurück
+   // Gibt die maximale HP des Spielers zurück
    public int getFullHP() {
       return fullHP;
    }
@@ -230,13 +229,13 @@ public class PlayerValues : MonoBehaviour {
       playerLevel++;
    }
 
-    // Erhöht das Level um 1
-    public void setLevel(int level) {
-        playerLevel = level;
-    }
+   // Erhöht das Level um 1
+   public void setLevel(int level) {
+      playerLevel = level;
+   }
 
-    // Verändert die Spieler-EP um den entsprechenden Wert
-    public void changeXP(int amount) {
+   // Verändert die Spieler-EP um den entsprechenden Wert
+   public void changeXP(int amount) {
       currentXP += amount;
       if (currentXP >= XP_PER_LEVEL[playerLevel - 1]) {
          currentXP -= XP_PER_LEVEL[playerLevel - 1];
@@ -245,12 +244,12 @@ public class PlayerValues : MonoBehaviour {
       }
    }
 
-    // Gibt die EP zurück
+   // Gibt die EP zurück
    public int getXP() {
       return currentXP;
    }
 
-    // Gibt die EP für das übergebene Level zurück
+   // Gibt die EP für das übergebene Level zurück
    public int getXPForLevel(int level) {
       return XP_PER_LEVEL[level < XP_PER_LEVEL.Length ? level - 1 : XP_PER_LEVEL.Length - 1];
    }
@@ -260,23 +259,23 @@ public class PlayerValues : MonoBehaviour {
       return playerLevel;
    }
 
-    // Gibt die Verteidigung des Spielers zurück
+   // Gibt die Verteidigung des Spielers zurück
    public int getDefense() {
       return defense;
    }
 
 
-    //Gibt den Ausweichwert des Spielers zurück
+   //Gibt den Ausweichwert des Spielers zurück
    public float getEvasion() {
       return evasion;
    }
 
-    // Gibt die Wahrscheinlichkeit um aus dem Kampf zu entkommen zurück
+   // Gibt die Wahrscheinlichkeit um aus dem Kampf zu entkommen zurück
    public float getEscapeChance() {
       return escapeChance;//Level in Charsheet
    }
 
-    public void saveStats() {
-        globalStats.saveStats(this);
-    }
+   public void saveStats() {
+      globalStats.saveStats(this);
+   }
 }
