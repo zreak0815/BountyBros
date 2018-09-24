@@ -13,8 +13,8 @@ public class PlayerValues : MonoBehaviour {
    public int playerLevel = 1;
    public int currentXP = 0;
 
-   // EP pro Level
-   public int[] XP_PER_LEVEL = { 100, 110, 120, 130, 140, 150 };
+   // EP pro Level | letzte EP Zahl stark erhöht, damit es zu keiner Expection kommen kann
+   public int[] XP_PER_LEVEL = { 100, 110, 120, 130, 140, 150, 160, 10000 };
 
    // HP Regeneration bei einem Heiltrank
    private const int HP_POTION_REGEN = 30;
