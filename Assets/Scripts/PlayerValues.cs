@@ -84,7 +84,6 @@ public class PlayerValues : MonoBehaviour {
 
    private GlobalStats globalStats;
 
-   private static bool isInited = false;
    // Use this for initialization
    void Start() {
       globalStats = FindObjectOfType<GlobalStats>();
@@ -99,15 +98,13 @@ public class PlayerValues : MonoBehaviour {
       Def = GameObject.Find("AddDef").GetComponent<Button>();
       Fcs = GameObject.Find("AddFocus").GetComponent<Button>();
       Evs = GameObject.Find("AddEvasion").GetComponent<Button>();
-      if (!isInited) {
-         isInited = true;
-         Atk.onClick.AddListener(AddAtk);
-         Def.onClick.AddListener(AddDef);
-         Fcs.onClick.AddListener(AddHP);
-         Evs.onClick.AddListener(AddEvs);
-      }
 
-        charSheetController = FindObjectOfType<CharSheetController>();
+      Atk.onClick.AddListener(AddAtk);
+      Def.onClick.AddListener(AddDef);
+      Fcs.onClick.AddListener(AddHP);
+      Evs.onClick.AddListener(AddEvs);
+
+      charSheetController = FindObjectOfType<CharSheetController>();
 
    }
 

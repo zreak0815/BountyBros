@@ -152,6 +152,14 @@ public class SimplePlatformController : MonoBehaviour
         activeTextBox = !activeTextBox;
     }
 
+    private void spikeDamage() {
+        const int SPIKE_DAMAGE = 10;
+        player.changeHP(-SPIKE_DAMAGE);
+        hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
+        invincibility = 120;
+        combatManager.showText(transform.position, SPIKE_DAMAGE.ToString(), Color.red);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -202,11 +210,7 @@ public class SimplePlatformController : MonoBehaviour
                 if (invincibility == 0) {
                     Spikes floorDamage = collisionBox.getGround().GetComponent<Spikes>();
                     if (floorDamage != null) {
-                        const int SPIKE_DAMAGE = 10;
-                        player.changeHP(-SPIKE_DAMAGE);
-                        hpText.text = "HP " + player.getHP().ToString() + "/" + player.getFullHP();
-                        invincibility = 120;
-                        combatManager.showText(transform.position, SPIKE_DAMAGE.ToString(), Color.red);
+                        spikeDamage();
                     }
                 }
 
@@ -251,6 +255,16 @@ public class SimplePlatformController : MonoBehaviour
             else
             {
                 anim.SetTrigger("Jumping");
+            }
+
+            if (invincibility == 0) {
+                GameObject spikeWall = collisionBox.getWall(collisionBox.velocity.x < 0 ? Vector3.left : Vector3.right);
+                if (spikeWall != null) {
+                    Spikes spike = spikeWall.GetComponent<Spikes>();
+                    if (spike != null) {
+                        spikeDamage();
+                    }
+                }
             }
 
             if (Input.GetButtonDown("Jump") && !activeTextBox)
