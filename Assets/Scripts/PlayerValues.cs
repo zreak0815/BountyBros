@@ -7,14 +7,14 @@ public class PlayerValues : MonoBehaviour {
    private int prv_fullHP = 100;
    public int fullHP {
       get {
-         return prv_fullHP + (CharSheetController.Fcs * 10);
+         return prv_fullHP + (CharSheetController.HP * 10);
       }
    }
    public int playerLevel = 1;
    public int currentXP = 0;
 
    // EP pro Level
-   public int[] XP_PER_LEVEL = { 100, 110, 120, 130 };
+   public int[] XP_PER_LEVEL = { 100, 110, 120, 130, 140, 150 };
 
    // HP Regeneration bei einem Heiltrank
    private const int HP_POTION_REGEN = 30;
@@ -98,7 +98,7 @@ public class PlayerValues : MonoBehaviour {
       Def = GameObject.Find("AddDef").GetComponent<Button>();
       Def.onClick.AddListener(AddDef);
       Fcs = GameObject.Find("AddFocus").GetComponent<Button>();
-      Fcs.onClick.AddListener(AddFcs);
+      Fcs.onClick.AddListener(AddHP);
       Evs = GameObject.Find("AddEvasion").GetComponent<Button>();
       Evs.onClick.AddListener(AddEvs);
 
@@ -113,8 +113,8 @@ public class PlayerValues : MonoBehaviour {
       CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Defense);
    }
 
-   void AddFcs() {
-      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Focus);
+   void AddHP() {
+      CharSheetController.AddStatPoint(CharSheetController.StatusPoints.Health);
    }
 
    void AddEvs() {

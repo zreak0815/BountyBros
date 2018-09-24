@@ -269,7 +269,8 @@ public class SimplePlatformController : MonoBehaviour
 
             //Prüft auf Gegnerberührung
             checkEnemies();
-        }        
+        }
+        hpText.text = "HP " + player.getHP() + "/" + player.getFullHP();
     }
 
     // Prüft, ob die Animation gedreht werden muss

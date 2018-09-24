@@ -124,7 +124,7 @@ public class CombatManager : MonoBehaviour {
 
    // Update is called once per frame
    void Update() {
-
+        //Debug.Log(player.getFullHP());
       // Wechselt die Auswahl im aktuellen Menü
       if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) {
          // Hier ist switch notwendig, weil BattleMenu.Selection nur 3 Auswahlmöglichkeiten hat       
@@ -217,7 +217,7 @@ public class CombatManager : MonoBehaviour {
                break;
          }
       }
-
+   
 
    }
 
@@ -411,6 +411,8 @@ public class CombatManager : MonoBehaviour {
    private void endCombat() {
       jumpAndRunUIText.text = "HP " + player.getHP() + "/" + player.getFullHP();
       player.changeXP(enemyBase.getxpReward());
+        Debug.Log("current XP: " + player.getXP());
+        Debug.Log("XP for level: " + player.getXPForLevel(player.getLevel()));
       xpText.text = "XP " + player.getXP() + "/" + player.getXPForLevel(player.getLevel());
       Destroy(touchedEnemy);
       playerCamera.SetActive(true);
