@@ -241,7 +241,7 @@ public class PlayerValues : MonoBehaviour {
       if (currentXP >= XP_PER_LEVEL[playerLevel - 1]) {
          currentXP -= XP_PER_LEVEL[playerLevel - 1];
          playerLevel++;
-         CharSheetController.IncrementByOne();
+         CharSheetController.IncrementOnLevelUp();
       }
    }
 

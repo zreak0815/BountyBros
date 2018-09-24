@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 
 public class CharSheetController : MonoBehaviour {
+   public static int LevelToDisplay = 1;
    public static int StatPoints = 1;
    public static int Atk = 1;
    public static int Def = 1;
@@ -22,10 +23,11 @@ public class CharSheetController : MonoBehaviour {
    static Text Evs_T;
 
    // Use this for initialization
-   void Start() {
+   private void Start() {
       StatPts = GameObject.Find("Punkte").GetComponent<Text>();
       StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");
       Atk_T = GameObject.Find("TextAtk").GetComponent<Text>();
+      Debug.Log("Geladen wurde: " + GameObject.Find("TextAtk") + " - " + GameObject.Find("TextAtk").GetComponent<Text>());
       Def_T = GameObject.Find("TextDef").GetComponent<Text>();
       Fcs_T = GameObject.Find("TextFcs").GetComponent<Text>();
       Evs_T = GameObject.Find("TextEvasion").GetComponent<Text>();
@@ -67,9 +69,8 @@ public class CharSheetController : MonoBehaviour {
 
    }
 
-   public static void IncrementByOne() {
-      StatPoints++;
-      //StatPts = GameObject.Find("Punkte").GetComponent<Text>();
+   public static void IncrementOnLevelUp() {
+      StatPoints += 2;
       StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");
    }
 }
