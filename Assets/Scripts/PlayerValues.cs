@@ -82,9 +82,9 @@ public class PlayerValues : MonoBehaviour {
 
    private GlobalStats globalStats;
 
+   private static bool isInited = false;
    // Use this for initialization
    void Start() {
-
       globalStats = FindObjectOfType<GlobalStats>();
       if (globalStats == null) {
          globalStats = new GameObject().AddComponent<GlobalStats>();
@@ -94,14 +94,16 @@ public class PlayerValues : MonoBehaviour {
 
       CharSheet = GameObject.Find("CharacterSheet");
       Atk = GameObject.Find("AddAtack").GetComponent<Button>();
-      Atk.onClick.AddListener(AddAtk);
       Def = GameObject.Find("AddDef").GetComponent<Button>();
-      Def.onClick.AddListener(AddDef);
       Fcs = GameObject.Find("AddFocus").GetComponent<Button>();
-      Fcs.onClick.AddListener(AddHP);
       Evs = GameObject.Find("AddEvasion").GetComponent<Button>();
-      Evs.onClick.AddListener(AddEvs);
-
+      if (!isInited) {
+         isInited = true;
+         Atk.onClick.AddListener(AddAtk);
+         Def.onClick.AddListener(AddDef);
+         Fcs.onClick.AddListener(AddHP);
+         Evs.onClick.AddListener(AddEvs);
+      }
 
    }
 
