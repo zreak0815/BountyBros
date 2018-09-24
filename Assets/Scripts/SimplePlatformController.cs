@@ -158,6 +158,7 @@ public class SimplePlatformController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z)) {
             FindObjectOfType<PlayerValues>().changeXP(100);
+            combatManager.xpText.text = "XP " + player.getXP() + "/" + player.getXPForLevel(player.getLevel());
         }
 
         if (Input.GetKeyDown(KeyCode.U)) {

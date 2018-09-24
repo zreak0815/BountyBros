@@ -30,6 +30,15 @@ public class CharSheetController : MonoBehaviour {
       StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");
    }
 
+   public void updateStats() {
+        Lvl_T.text = "Level " + Lvl;
+        Atk_T.text = Atk.ToString();
+        Def_T.text = Def.ToString();
+        Evs_T.text = Evs.ToString();
+        HP_T.text = HP.ToString();
+        StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");
+    }
+
    public void AddStatPoint(StatusPoints aType) {
       Text StatPts = GameObject.Find("Punkte").GetComponent<Text>();
       if (StatPoints > 0) {
@@ -57,8 +66,8 @@ public class CharSheetController : MonoBehaviour {
                }
          }
          StatPoints--;
-         StatPts.text = StatPoints + " Statuspunkte";
-      }
+            StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");
+        }
    }
 
    // Update is called once per frame
