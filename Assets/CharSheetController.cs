@@ -8,6 +8,7 @@ public class CharSheetController : MonoBehaviour {
    public static int Def = 1;
    public static int Fcs = 1;
    public static int Evs = 1;
+   public static int Lvl = 1;
 
    public enum StatusPoints {
       Atack,
@@ -21,6 +22,7 @@ public class CharSheetController : MonoBehaviour {
    static Text Def_T;
    static Text Fcs_T;
    static Text Evs_T;
+   static Text Lvl_T;
 
    // Use this for initialization
    private void Start() {
@@ -31,6 +33,7 @@ public class CharSheetController : MonoBehaviour {
       Def_T = GameObject.Find("TextDef").GetComponent<Text>();
       Fcs_T = GameObject.Find("TextFcs").GetComponent<Text>();
       Evs_T = GameObject.Find("TextEvasion").GetComponent<Text>();
+      Lvl_T = GameObject.Find("LevelText").GetComponent<Text>();
    }
 
    public static void AddStatPoint(StatusPoints aType) {
@@ -71,6 +74,8 @@ public class CharSheetController : MonoBehaviour {
 
    public static void IncrementOnLevelUp() {
       StatPoints += 2;
+      ++Lvl;
       StatPts.text = StatPoints + (StatPoints == 1 ? " Statuspunkt" : " Statuspunkte");
+      Lvl_T.text = "Level " + Lvl;
    }
 }
