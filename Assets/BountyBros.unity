@@ -11509,7 +11509,7 @@ MonoBehaviour:
   HP: 100
   playerLevel: 1
   currentXP: 0
-  XP_PER_LEVEL: 640000006e0000007800000082000000
+  XP_PER_LEVEL: 640000006e00000078000000820000008c00000096000000a00000001027000010270000
   escapeChance: 0.3
   hpFlaskAmount: 0
   cooldownLightAttack: 0
@@ -18690,6 +18690,36 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114861324977938514, guid: 5c51a20ac8d88104a94bb0a7a1a78c9f,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224833912180505348, guid: 5c51a20ac8d88104a94bb0a7a1a78c9f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -146
+      objectReference: {fileID: 0}
+    - target: {fileID: 224833912180505348, guid: 5c51a20ac8d88104a94bb0a7a1a78c9f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -47
+      objectReference: {fileID: 0}
+    - target: {fileID: 114340499710349528, guid: 5c51a20ac8d88104a94bb0a7a1a78c9f,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224632777355625244, guid: 5c51a20ac8d88104a94bb0a7a1a78c9f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -141
+      objectReference: {fileID: 0}
+    - target: {fileID: 224632777355625244, guid: 5c51a20ac8d88104a94bb0a7a1a78c9f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 167
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c51a20ac8d88104a94bb0a7a1a78c9f, type: 2}
