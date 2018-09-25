@@ -157,7 +157,7 @@ public class CombatManager : MonoBehaviour {
       }
 
       // reagiert auf Enter Eingabe
-      if (isPlayersTurn && Input.GetKeyDown(KeyCode.Return)) {
+      if (isPlayersTurn && (Input.GetButtonDown("Submit") || Input.GetKeyDown(KeyCode.E))) {
          //prüft das aktuelle Menü
          switch (currentMenu) {
             case BattleMenu.Selection:
