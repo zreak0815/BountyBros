@@ -124,6 +124,10 @@ public class CombatManager : MonoBehaviour {
 
    // Update is called once per frame
    void Update() {
+
+      if (!inCombat) {
+            return;
+        }
         //Debug.Log(player.getFullHP());
       // Wechselt die Auswahl im aktuellen Menü
       if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) {
