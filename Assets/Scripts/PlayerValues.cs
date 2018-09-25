@@ -81,6 +81,7 @@ public class PlayerValues : MonoBehaviour {
    Button Def;
    Button Fcs;
    Button Evs;
+   Button HPPotion;
 
    private GlobalStats globalStats;
 
@@ -98,11 +99,13 @@ public class PlayerValues : MonoBehaviour {
       Def = GameObject.Find("AddDef").GetComponent<Button>();
       Fcs = GameObject.Find("AddFocus").GetComponent<Button>();
       Evs = GameObject.Find("AddEvasion").GetComponent<Button>();
+      HPPotion = GameObject.Find("useHPPotion").GetComponent<Button>();
 
       Atk.onClick.AddListener(AddAtk);
       Def.onClick.AddListener(AddDef);
       Fcs.onClick.AddListener(AddHP);
       Evs.onClick.AddListener(AddEvs);
+      HPPotion.onClick.AddListener(usePotion);
 
       charSheetController = FindObjectOfType<CharSheetController>();
 
@@ -123,6 +126,14 @@ public class PlayerValues : MonoBehaviour {
    void AddEvs() {
       charSheetController.AddStatPoint(CharSheetController.StatusPoints.Evasion);
    }
+
+   void usePotion()
+    {
+        if (hpFlaskAmount > 0) {
+            changeHP(HP_POTION_REGEN);
+            changeHPFlaskAmount(-1);
+        }
+    }
 
    private static bool firstStart = true;
 
@@ -215,6 +226,10 @@ public class PlayerValues : MonoBehaviour {
       if (HP < 0) {
          HP = 0;
       }
+      if (HP > fullHP)
+        {
+            HP = fullHP;
+        }
    }
 
    // Gibt die HP zurück
