@@ -18,18 +18,18 @@ public class SimplePlatformController : MonoBehaviour
     public bool abilityStomp = true;
 
     //Geschwindigkeit auf dem Boden
-    public float groundSpeed = 6;
-    public float groundAcceleration = 0.1f;
-    public float groundDeceleration = 0.1f;
+    private float groundSpeed = 0.2f;
+    private float groundAcceleration = 0.1f;
+    private float groundDeceleration = 0.04f;
 
     //Geschwindigkeit in der Luft
-    public float airSpeed = 3;
-    public float airAcceleration = 0.1f;
-    public float airDeceleration = 0.1f;
+    private float airSpeed = 0.15f;
+    private float airAcceleration = 0.02f;
+    private float airDeceleration = 0.01f;
 
     //Fallgeschwindigkeit
-    public float fallSpeed = 3;
-    public float gravity = 0.05f;
+    private float fallSpeed = 5;
+    private float gravity = 0.025f;
 
     //Sprunghöhen
     public float jumpForce = 1000f;
@@ -163,6 +163,7 @@ public class SimplePlatformController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        movementUpdate();
 
         if (Input.GetKeyDown(KeyCode.Z)) {
             FindObjectOfType<PlayerValues>().changeXP(100);
@@ -313,7 +314,7 @@ public class SimplePlatformController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void movementUpdate()
     {
         float h = Input.GetAxis("Horizontal");
 
